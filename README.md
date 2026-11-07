@@ -6,7 +6,7 @@
 
 **GitHub Pages launch address:** <https://gwb2025.github.io/nouveau-line-studio/>
 
-> **Publishing status:** the button will work once the `GWB2025/nouveau-line-studio` repository has been created, its files pushed to `main`, and **Settings → Pages → Build and deployment → Source: GitHub Actions** selected. Until then the URL may return 404. Do not report the site as live until verified.
+> **Publishing status:** the public GitHub repository and Pages workflow are committed to `main`. In **Settings → Pages → Build and deployment**, select **GitHub Actions** as the source. The launch button will become active after a successful deployment; verify the site before calling it live.
 
 ## Milestone 01 — Botanical ornament (evaluation release)
 
@@ -95,18 +95,16 @@ nouveau-line-studio/
 
 Milestone 01 uses **small, testable, pure JavaScript ES modules** and HTML/CSS: this is a deliberate zero-build starting point for reliable GitHub Pages delivery. We will evaluate moving mathematically intensive core modules to **Rust/WebAssembly** later, with `cargo test` tests written before migrating behaviour, when the build/deployment complexity is justified. Geometry and SVG export are kept separate from DOM code to avoid reimplementation.
 
-### Publication (once only)
+### GitHub Pages publication
 
-You can create and push the repository from the project directory using the GitHub CLI, if installed and authenticated:
+The public repository is <https://github.com/GWB2025/nouveau-line-studio>.
 
-```bash
-git init -b main
-git add .
-git commit -m "feat: milestone 01 botanical SVG generator (TDD)"
-gh repo create GWB2025/nouveau-line-studio --public --source=. --remote=origin --push
-```
+1. Open **Settings → Pages** in the repository.
+2. Under **Build and deployment**, select **GitHub Actions** as the source.
+3. Open the [Test and deploy GitHub Pages workflow](https://github.com/GWB2025/nouveau-line-studio/actions/workflows/ci-pages.yml) and confirm all jobs pass.
+4. Use the **Launch Nouveau Line Studio** badge above to open the published application.
 
-Then select **GitHub Actions** as the Pages source in repository Settings → Pages. The workflow tests on every push and deploys `main` to Pages. If you prefer the GitHub website, create an **empty public repository** named `nouveau-line-studio` first; push these files to `main` (do not initialise with a competing README).
+If the automated deployment does not start after enabling Pages, use **Run workflow** on the Actions page to trigger it. Keep your Mac's checkout synchronised with GitHub using `git pull --ff-only` before making further edits.
 
 ### Scope and limitations
 
