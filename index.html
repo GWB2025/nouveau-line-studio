@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Generate seeded black-and-white Art Nouveau vector ornament, export genuine pen-plotter-ready SVGs.">
+  <title>Nouveau Line Studio — Botanical Ornament</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">❦</span><div>
+      <div class="eyebrow">An experimental vector atelier</div>
+      <h1>Nouveau <em>Line</em> Studio</h1>
+    </div></div>
+    <div class="masthead-right"><span class="stage">MILESTONE 01</span><span class="stage-name">Botanical ornament</span></div>
+  </header>
+
+  <main class="workspace">
+    <aside class="controls" aria-label="Artwork controls">
+      <div class="section-head"><span>01 / COMPOSITION</span><div class="hairline"></div></div>
+      <p class="intro">Original black-and-white botanical ornament, drawn with mathematical curves. Change the seed to create a new variation.</p>
+      <label class="field" for="flower"><span>Floral motif</span>
+        <select id="flower"><option value="lily">Lilies</option><option value="poppy">Poppies</option><option value="iris">Irises</option></select>
+      </label>
+      <label class="field" for="seed"><span>Random seed</span>
+        <div class="seed-row"><input id="seed" type="text" maxlength="80" value="20261107" spellcheck="false"><button id="randomise" type="button" class="icon-button" title="New random seed" aria-label="New random seed">↻</button></div>
+      </label>
+      <div class="divider"></div>
+      <div class="section-head"><span>02 / DETAIL</span><div class="hairline"></div></div>
+      <label class="range-field" for="density"><span>Foliage density <output id="density-value">65%</output></span><input id="density" type="range" min="0" max="100" step="5" value="65"></label>
+      <label class="range-field" for="curvature"><span>Curve expression <output id="curvature-value">75%</output></span><input id="curvature" type="range" min="0" max="100" step="5" value="75"></label>
+      <label class="range-field" for="hatching"><span>Fine hatching <output id="hatching-value">40%</output></span><input id="hatching" type="range" min="0" max="100" step="5" value="40"></label>
+      <div class="divider"></div>
+      <div class="section-head"><span>03 / PRINT</span><div class="hairline"></div></div>
+      <label class="field" for="page"><span>Paper format</span>
+        <select id="page"><option value="A4">A4 — 210 × 297 mm</option><option value="A5">A5 — 148 × 210 mm</option><option value="A6">A6 — 105 × 148 mm</option></select>
+      </label>
+      <fieldset class="layers"><legend>Visible / exported pen layers</legend>
+        <label><input type="checkbox" data-layer="frame" checked><span>Architectural frame</span><small>01</small></label>
+        <label><input type="checkbox" data-layer="outlines" checked><span>Botanical outlines</span><small>02</small></label>
+        <label><input type="checkbox" data-layer="detail" checked><span>Fine details</span><small>03</small></label>
+        <label><input type="checkbox" data-layer="hatching" checked><span>Shading lines</span><small>04</small></label>
+      </fieldset>
+      <button id="export" class="primary-button" type="button"><span>↓</span> Export SVG for plotter</button>
+      <button id="reset" class="subtle-button" type="button">Restore defaults</button>
+      <p class="aside-note">No account, cloud service or image model required. Everything is generated in your browser.</p>
+    </aside>
+
+    <section class="stage-area" aria-labelledby="artwork-title">
+      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">Botanical <em>study no. 01</em></h2></div>
+        <span id="paper-tag" class="paper-tag">A4 · MONOCHROME</span></div>
+      <div class="sheet-zone"><div class="sheet" id="preview" role="img" aria-label="Preview of generated black-and-white Art Nouveau botanical ornament"></div></div>
+      <div class="art-bottom"><div><span class="metric-label">Vector paths</span><strong id="path-count">—</strong></div>
+        <div><span class="metric-label">Pen-down distance (approx.)</span><strong id="pen-length">—</strong></div>
+        <div><span class="metric-label">Artwork seed</span><strong id="seed-caption">—</strong></div></div>
+      <div class="notice"><span class="notice-dot"></span><p><strong>Evaluation release.</strong> Botanical geometry only. The stroke layers are editable SVG paths; figures and AI-assisted compositions are planned for later milestones.</p></div>
+      <p id="status" class="sr-only" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <footer>ORIGINAL GENERATIVE ART · EST. 2026 <span>Inspired by the flowing visual language of Art Nouveau, not a reproduction of any artist's work.</span></footer>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
