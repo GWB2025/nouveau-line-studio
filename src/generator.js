@@ -2,6 +2,7 @@ import { SeededRandom } from './prng.js';
 import { buildBotanicalComposition } from './botany.js';
 import { buildOrganicComposition } from './organic.js';
 import { buildFigureComposition } from './figure.js';
+import { buildPortraitComposition } from './portrait.js';
 import { fitPathsToPage } from './layout.js';
 
 const PAPER = Object.freeze({ A4: [210, 297], A5: [148, 210], A6: [105, 148] });
@@ -30,7 +31,8 @@ export function sanitiseOptions(raw = {}) {
     curvature: bounded(raw.curvature, 75),
     hatching: bounded(raw.hatching, 40),
     page,
-    composition: ['organic', 'figure'].includes(raw.composition) ? raw.composition : 'classic',
+    composition: ['organic', 'figure', 'portrait'].includes(raw.composition) ? raw.composition : 'classic',
+    gaze: ['lowered', 'direct', 'aside'].includes(raw.gaze) ? raw.gaze : 'lowered',
     figurePose: ['front', 'three-quarter', 'profile'].includes(raw.figurePose) ? raw.figurePose : 'three-quarter',
     hairstyle: ['waves', 'updo', 'braid'].includes(raw.hairstyle) ? raw.hairstyle : 'waves',
     dress: ['gown', 'shawl'].includes(raw.dress) ? raw.dress : 'gown',
@@ -52,9 +54,11 @@ export function createArtwork(rawOptions = {}) {
   const options = sanitiseOptions(rawOptions);
   const rng = new SeededRandom(`${options.seed}|botanical|${options.flower}`);
   const hatchRng = new SeededRandom(`${options.seed}|hatching`);
-  const rawLayers = options.composition === 'figure'
-    ? buildFigureComposition(options)
-    : options.composition === 'organic'
+  const rawLayers = options.composition === 'portrait'
+    ? buildPortraitComposition(options)
+    : options.composition === 'figure'
+      ? buildFigureComposition(options)
+      : options.composition === 'organic'
       ? buildOrganicComposition(options)
       : buildBotanicalComposition(options, rng, hatchRng);
   const [widthMm, heightMm] = PAPER[options.page];
@@ -77,7 +81,8 @@ export function createArtwork(rawOptions = {}) {
 export function renderSvg(artwork, enabledLayers = ORDER) {
   const { options, layers, metrics } = artwork;
   const permitted = new Set(enabledLayers);
-  const subject = options.composition === 'figure' ? 'figurative study' : `${options.flower} ornament`;
+  const subject = options.composition === 'portrait' ? 'expressive portrait'
+    : options.composition === 'figure' ? 'figurative study' : `${options.flower} ornament`;
   const parts = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     `<svg xmlns="http://www.w3.org/2000/svg" width="${metrics.pageWidthMm}mm" height="${metrics.pageHeightMm}mm" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid meet">`,

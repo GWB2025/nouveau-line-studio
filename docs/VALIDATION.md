@@ -121,3 +121,37 @@ small effect particularly hard to see in the browser preview.
 - [ ] Import A6 figure SVG into SVG Plotter, preserving page dimensions and stroke layers.
 - [ ] Plot actual artwork with T-A4 using a fine black pen, photograph the result and check overdraw, curve precision and elapsed time.
 - [ ] Record user approval or requested improvements before starting any Milestone 4 work.
+
+
+---
+
+# Milestone 03.1 — Face-focused Art Nouveau study (8 November 2026)
+
+The previous figure prototype had mechanical eyes, flat lips, a narrow
+expressional range and insufficient facial presence on an A6 sheet. A separate
+`portrait` generator now creates more prominent heads with a landmark-based
+face, half-lidded almond eyes, cupid's-bow lips, projected nose contours,
+head-framing flowing hair and an open halo. This is original stylistic geometry,
+not a reproduction of a particular historical artwork.
+
+## TDD evidence
+
+- **Red:** wrote portrait anatomy, SVG and UI checks before the generator; saw
+  missing-module failures, then a missing integration/validation failure.
+- **Green:** pure facial landmark planning → SVG facial primitives → hair and
+  drapery → seeded art → generator integration → live UI → sample validation.
+- **Regression:** exact output hashes for Classic, Organic and original Figure
+  remain unchanged. Input sanitisation, no-raster, separate layers, bounded
+  length and clipping tested for 30 portrait pose/seed variants.
+- **Visual assessment:** generated images visually inspected for frontal,
+  three-quarter and profile views, with a visible larger face than Milestone 3.
+- **Not tested:** physical T-A4 plot or Safari use of the portrait mode.
+
+## Acceptance checklist
+
+- [ ] Verify the new portrait mode and gaze selector in Safari.
+- [ ] Inspect facial proportions, eye shapes, nose, lips and hair at A6 scale.
+- [ ] Compare three-quarter, profile and frontal expressions.
+- [ ] Export new A6 portrait, import to SVG Plotter and confirm page scale.
+- [ ] Plot the A6 sample on the T-A4; review fine eye/lip line quality.
+- [ ] Record refinements before broadening into AI-assisted image models.

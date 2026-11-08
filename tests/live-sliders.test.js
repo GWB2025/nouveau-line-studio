@@ -83,7 +83,7 @@ test('app redraws both SVG sliders on input before change or mouse release', asy
   const names = [
     'seed', 'flower', 'density', 'curvature', 'hatching', 'page',
     'composition', 'symmetry', 'frame', 'shading', 'scale', 'margin',
-    'figurePose', 'hairstyle', 'dress', 'artwork-title',
+    'figurePose', 'hairstyle', 'dress', 'gaze', 'artwork-title',
     'preview', 'path-count', 'pen-length', 'export', 'seed-caption',
     'paper-tag', 'fit-info', 'density-value', 'curvature-value',
     'hatching-value', 'symmetry-value', 'scale-value', 'margin-value',
