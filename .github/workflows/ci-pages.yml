@@ -1,58 +1,42 @@
 name: Test and deploy GitHub Pages
-
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
-
 permissions:
   contents: read
-
-concurrency:
-  group: github-pages
-  cancel-in-progress: true
-
 jobs:
   test:
-    name: Test, validate and package
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Test and validate sample SVG
+      - name: Test vector primitives and generator
         run: npm run check
-
-      - name: Prepare static web application
-        run: |
-          mkdir -p dist
-          cp index.html styles.css favicon.svg dist/
-          cp -R src samples dist/
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload web application
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    name: Deploy
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Assemble static site
+        run: |
+          mkdir -p _site
+          cp index.html styles.css favicon.svg _site/
+          cp -R src assets samples _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
         uses: actions/deploy-pages@v4

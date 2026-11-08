@@ -3,6 +3,7 @@ import { buildBotanicalComposition } from './botany.js';
 import { buildOrganicComposition } from './organic.js';
 import { buildFigureComposition } from './figure.js';
 import { buildPortraitComposition } from './portrait.js';
+import { buildCuratedComposition } from './curated.js';
 import { fitPathsToPage } from './layout.js';
 
 const PAPER = Object.freeze({ A4: [210, 297], A5: [148, 210], A6: [105, 148] });
@@ -31,7 +32,8 @@ export function sanitiseOptions(raw = {}) {
     curvature: bounded(raw.curvature, 75),
     hatching: bounded(raw.hatching, 40),
     page,
-    composition: ['organic', 'figure', 'portrait'].includes(raw.composition) ? raw.composition : 'classic',
+    composition: ['organic', 'figure', 'portrait', 'curated'].includes(raw.composition) ? raw.composition : 'classic',
+    portraitId: raw.portraitId === 'muse-01' ? raw.portraitId : 'muse-01',
     gaze: ['lowered', 'direct', 'aside'].includes(raw.gaze) ? raw.gaze : 'lowered',
     figurePose: ['front', 'three-quarter', 'profile'].includes(raw.figurePose) ? raw.figurePose : 'three-quarter',
     hairstyle: ['waves', 'updo', 'braid'].includes(raw.hairstyle) ? raw.hairstyle : 'waves',
@@ -54,7 +56,9 @@ export function createArtwork(rawOptions = {}) {
   const options = sanitiseOptions(rawOptions);
   const rng = new SeededRandom(`${options.seed}|botanical|${options.flower}`);
   const hatchRng = new SeededRandom(`${options.seed}|hatching`);
-  const rawLayers = options.composition === 'portrait'
+  const rawLayers = options.composition === 'curated'
+    ? buildCuratedComposition(options)
+    : options.composition === 'portrait'
     ? buildPortraitComposition(options)
     : options.composition === 'figure'
       ? buildFigureComposition(options)
@@ -81,7 +85,8 @@ export function createArtwork(rawOptions = {}) {
 export function renderSvg(artwork, enabledLayers = ORDER) {
   const { options, layers, metrics } = artwork;
   const permitted = new Set(enabledLayers);
-  const subject = options.composition === 'portrait' ? 'expressive portrait'
+  const subject = options.composition === 'curated' ? 'The Muse — curated portrait no. 01'
+    : options.composition === 'portrait' ? 'expressive portrait'
     : options.composition === 'figure' ? 'figurative study' : `${options.flower} ornament`;
   const parts = [
     '<?xml version="1.0" encoding="UTF-8"?>',

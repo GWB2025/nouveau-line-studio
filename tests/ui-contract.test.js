@@ -15,7 +15,7 @@ test('every static app DOM reference is present in HTML', () => {
   }
   for (const control of ['seed', 'flower', 'density', 'curvature', 'hatching', 'page',
     'composition', 'symmetry', 'frame', 'shading', 'scale', 'margin',
-    'figurePose', 'hairstyle', 'dress', 'gaze']) {
+    'figurePose', 'hairstyle', 'dress', 'gaze', 'portraitId']) {
     assert.ok(ids.includes(control), `missing option #${control}`);
   }
 });
@@ -44,23 +44,24 @@ test('Milestone 2 controls are exposed and include a legacy reference preset', (
   assert.match(html, /MILESTONE 03/);
 });
 
-test('initial HTML controls agree with the Milestone 2 preset', () => {
-  assert.match(html, /id="flower"[\s\S]*?value="mixed" selected/);
+test('initial HTML controls agree with the curated Muse preset', () => {
+  assert.match(html, /id="flower"[\s\S]*?value="lily" selected/);
   assert.match(html, /id="page"[\s\S]*?value="A6" selected/);
-  assert.match(html, /id="density"[^>]+value="70"/);
-  assert.match(html, /id="hatching"[^>]+value="55"/);
-  assert.match(html, /id="scale"[^>]+value="115"/);
-  assert.match(html, /id="margin"[^>]+value="8"/);
+  assert.match(html, /id="density"[^>]+value="65"/);
+  assert.match(html, /id="hatching"[^>]+value="45"/);
+  assert.match(html, /id="scale"[^>]+value="110"/);
+  assert.match(html, /id="margin"[^>]+value="7"/);
 });
 
 
-test('Milestone 3 figurative controls are present and selected by default', () => {
+test('original figure controls remain present with curated portrait default', () => {
   for (const id of ['figurePose', 'hairstyle', 'dress', 'figure-controls']) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
-  assert.match(html, /id="composition"[\s\S]*?value="portrait" selected/);
+  assert.match(html, /id="composition"[\s\S]*?value="curated" selected/);
   assert.match(html, /value="figure">Original figure/);
   assert.match(html, /id="frame"[\s\S]*?value="halo" selected/);
   assert.match(html, /MILESTONE 03/);
   assert.match(app, /for \(const name of \['figurePose', 'hairstyle', 'dress', 'gaze'\]\)/);
+  assert.match(app, /\$\('portraitId'\)\.disabled = !curated/);
 });

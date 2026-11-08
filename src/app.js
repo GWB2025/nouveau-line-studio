@@ -2,14 +2,14 @@ import { createArtwork, renderSvg } from './generator.js';
 import { createFrameUpdater } from './live-controls.js';
 
 const DEFAULTS = Object.freeze({
-  seed: '20261108', flower: 'mixed', density: 70, curvature: 75,
-  hatching: 55, page: 'A6', composition: 'portrait', symmetry: 70,
-  frame: 'halo', shading: 'contour', scale: 115, margin: 8,
+  seed: '20261108', flower: 'lily', density: 65, curvature: 75,
+  hatching: 45, page: 'A6', composition: 'curated', portraitId: 'muse-01', symmetry: 75,
+  frame: 'halo', shading: 'contour', scale: 110, margin: 7,
   figurePose: 'three-quarter', hairstyle: 'waves', dress: 'gown', gaze: 'lowered',
 });
 const CLASSIC = Object.freeze({
   seed: '2412028838', flower: 'lily', density: 65, curvature: 75,
-  hatching: 40, page: 'A6', composition: 'classic', symmetry: 100,
+  hatching: 40, page: 'A6', composition: 'classic', portraitId: 'muse-01', symmetry: 100,
   frame: 'arch', shading: 'contour', scale: 100, margin: 0,
   figurePose: 'three-quarter', hairstyle: 'waves', dress: 'gown', gaze: 'lowered',
 });
@@ -46,10 +46,13 @@ function updatePreview() {
   $('hatching').disabled = !visibleLayers.includes('hatching');
   const classic = artwork.options.composition === 'classic';
   const figurative = ['figure', 'portrait'].includes(artwork.options.composition);
+  const curated = artwork.options.composition === 'curated';
   for (const name of ['symmetry', 'frame', 'shading']) $(name).disabled = classic;
   for (const name of ['figurePose', 'hairstyle', 'dress', 'gaze']) $(name).disabled = !figurative;
+  $('portraitId').disabled = !curated;
   $('flower').disabled = false;
-  $('artwork-title').textContent = artwork.options.composition === 'portrait'
+  $('artwork-title').textContent = curated ? 'The Muse — curated portrait no. 01'
+    : artwork.options.composition === 'portrait'
     ? 'Expressive portrait study' : figurative ? 'Figurative study no. 03' : 'Botanical study';
   for (const name of ['density', 'curvature', 'hatching', 'symmetry', 'scale']) {
     $(`${name}-value`).textContent = `${artwork.options[name]}%`;
@@ -63,7 +66,8 @@ function exportSvg() {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
   const safeSeed = artwork.options.seed.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 40);
-  anchor.download = `nouveau-${['figure', 'portrait'].includes(artwork.options.composition) ? artwork.options.composition : artwork.options.flower}-${safeSeed}-${artwork.options.page}.svg`;
+  anchor.download = `nouveau-${artwork.options.composition === 'curated' ? artwork.options.portraitId
+    : ['figure', 'portrait'].includes(artwork.options.composition) ? artwork.options.composition : artwork.options.flower}-${safeSeed}-${artwork.options.page}.svg`;
   anchor.href = url;
   document.body.append(anchor);
   anchor.click();

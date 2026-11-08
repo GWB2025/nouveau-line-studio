@@ -2,8 +2,15 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { createArtwork, renderSvg } from '../src/generator.js';
 import { pathBounds } from '../src/layout.js';
+import { buildMusePortrait } from '../src/portrait-muse.js';
 
 const samples = [
+  {
+    filename: 'nouveau-curated-muse-01-A6.svg',
+    options: { composition: 'curated', portraitId: 'muse-01', seed: '20261108',
+      page: 'A6', flower: 'lily', frame: 'halo', density: 65,
+      curvature: 75, symmetry: 75, hatching: 45, scale: 110, margin: 7 },
+  },
   {
     filename: 'nouveau-lily-seed-20261107-A4.svg',
     options: { seed: '20261107', flower: 'lily', density: 65,
@@ -50,3 +57,16 @@ for (const sample of samples) {
   console.log(`Validated ${sample.filename}: ${art.metrics.pathCount} paths, ` +
     `${(art.metrics.penDownMm / 1000).toFixed(2)} m drawn.`);
 }
+
+// Independently reusable fixed portrait SVG (no generative surround).
+const portrait = buildMusePortrait();
+const asset = renderSvg({
+  options: { seed: 'curated-asset', composition: 'curated', portraitId: 'muse-01' },
+  layers: portrait,
+  metrics: { pageWidthMm: 105, pageHeightMm: 148 },
+});
+assert.equal((asset.match(/<path /g) ?? []).length,
+  Object.values(portrait).flat().length);
+mkdirSync(new URL('../assets/portraits/', import.meta.url), { recursive: true });
+writeFileSync(new URL('../assets/portraits/muse-01.svg', import.meta.url), asset);
+console.log('Validated standalone Muse portrait SVG asset.');

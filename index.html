@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Generate seeded black-and-white Art Nouveau vector ornament, export genuine pen-plotter-ready SVGs.">
-  <title>Nouveau Line Studio — Expressive Portraits</title>
+  <title>Nouveau Line Studio — Curated Portrait Library</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,16 +14,20 @@
       <div class="eyebrow">An experimental vector atelier</div>
       <h1>Nouveau <em>Line</em> Studio</h1>
     </div></div>
-    <div class="masthead-right"><span class="stage">MILESTONE 03</span><span class="stage-name">Expressive portraits · 0.3.1</span></div>
+    <div class="masthead-right"><span class="stage">MILESTONE 03</span><span class="stage-name">Curated portrait study · 0.3.2</span></div>
   </header>
 
   <main class="workspace">
     <aside class="controls" aria-label="Artwork controls">
       <div class="section-head"><span>01 / COMPOSITION</span><div class="hairline"></div></div>
-      <p class="intro">Draw original expressive Art Nouveau portraits with half-lidded eyes, flowing hair, drapery and botanical frames. Original Figure, Organic and Classic engines remain available unchanged.</p>
+      <p class="intro">Begin with a hand-curated vector portrait inspired by a floral-crowned Mucha poster. The face and hair stay constant while your seed changes the surrounding ornament. Five more portraits will follow only after this first one is approved.</p>
       <label class="field" for="composition"><span>Composition engine</span>
-        <select id="composition"><option value="portrait" selected>Expressive portrait — Face study</option><option value="figure">Original figure — Milestone 3</option><option value="organic">Organic — Milestone 2</option><option value="classic">Classic — Milestone 1</option></select>
+        <select id="composition"><option value="curated" selected>Curated portrait — The Muse (01 of 06)</option><option value="portrait">Expressive portrait — Face study</option><option value="figure">Original figure — Milestone 3</option><option value="organic">Organic — Milestone 2</option><option value="classic">Classic — Milestone 1</option></select>
       </label>
+      <label class="field" for="portraitId"><span>Portrait library · 1 of 6 ready</span>
+        <select id="portraitId"><option value="muse-01" selected>01 — The Muse · frontal lilies</option></select>
+      </label>
+      <p class="aside-note">Portraits 02–06 will be added after the first face has been reviewed and plotted. No placeholder portraits are presented as finished.</p>
       <fieldset class="figure-controls" id="figure-controls"><legend>Figurative study controls</legend>
         <label class="field" for="figurePose"><span>Head and figure pose</span><select id="figurePose"><option value="front">Frontal</option><option value="three-quarter" selected>Three-quarter</option><option value="profile">Profile</option></select></label>
         <label class="field" for="gaze"><span>Eye expression and gaze</span><select id="gaze"><option value="lowered" selected>Serene / half-lidded</option><option value="direct">Direct gaze</option><option value="aside">Looking aside</option></select></label>
@@ -31,20 +35,20 @@
         <label class="field" for="dress"><span>Drapery</span><select id="dress"><option value="gown" selected>Flowing gown</option><option value="shawl">Draped shawl</option></select></label>
       </fieldset>
       <label class="field" for="flower"><span>Floral motif</span>
-        <select id="flower"><option value="lily">Lilies</option><option value="poppy">Poppies</option><option value="iris">Irises</option><option value="mixed" selected>Mixed flowers</option></select>
+        <select id="flower"><option value="lily" selected>Lilies</option><option value="poppy">Poppies</option><option value="iris">Irises</option><option value="mixed">Mixed flowers</option></select>
       </label>
       <label class="field" for="seed"><span>Random seed</span>
         <div class="seed-row"><input id="seed" type="text" maxlength="80" value="20261108" spellcheck="false"><button id="randomise" type="button" class="icon-button" title="New random seed" aria-label="New random seed">↻</button></div>
       </label>
-      <label class="range-field" for="symmetry"><span>Flower placement symmetry <output id="symmetry-value">70%</output></span><input id="symmetry" type="range" min="0" max="100" step="5" value="70"></label>
+      <label class="range-field" for="symmetry"><span>Flower placement symmetry <output id="symmetry-value">75%</output></span><input id="symmetry" type="range" min="0" max="100" step="5" value="75"></label>
       <label class="field" for="frame"><span>Architectural frame</span>
         <select id="frame"><option value="arch">Double arch</option><option value="halo" selected>Oval halo</option><option value="trellis">Trellis</option></select>
       </label>
       <div class="divider"></div>
       <div class="section-head"><span>02 / DETAIL</span><div class="hairline"></div></div>
-      <label class="range-field" for="density"><span>Foliage density <output id="density-value">70%</output></span><input id="density" type="range" min="0" max="100" step="5" value="70"></label>
+      <label class="range-field" for="density"><span>Foliage density <output id="density-value">65%</output></span><input id="density" type="range" min="0" max="100" step="5" value="65"></label>
       <label class="range-field" for="curvature"><span>Curve expression <output id="curvature-value">75%</output></span><input id="curvature" type="range" min="0" max="100" step="5" value="75"></label>
-      <label class="range-field" for="hatching"><span>Fine hatching (shading layer) <output id="hatching-value">55%</output></span><input id="hatching" type="range" min="0" max="100" step="5" value="55"></label>
+      <label class="range-field" for="hatching"><span>Fine hatching (shading layer) <output id="hatching-value">45%</output></span><input id="hatching" type="range" min="0" max="100" step="5" value="45"></label>
       <label class="field" for="shading"><span>Pen-and-ink shading</span>
         <select id="shading"><option value="contour">Fine contour lines</option><option value="crosshatch">Cross-hatching</option></select>
       </label>
@@ -53,8 +57,8 @@
       <label class="field" for="page"><span>Paper format</span>
         <select id="page"><option value="A4">A4 — 210 × 297 mm</option><option value="A5">A5 — 148 × 210 mm</option><option value="A6" selected>A6 — 105 × 148 mm</option></select>
       </label>
-      <label class="range-field" for="scale"><span>Artwork scale <output id="scale-value">115%</output></span><input id="scale" type="range" min="50" max="130" step="5" value="115"></label>
-      <label class="range-field" for="margin"><span>Minimum paper margin <output id="margin-value">8 mm</output></span><input id="margin" type="range" min="0" max="20" step="1" value="8"></label>
+      <label class="range-field" for="scale"><span>Artwork scale <output id="scale-value">110%</output></span><input id="scale" type="range" min="50" max="130" step="5" value="110"></label>
+      <label class="range-field" for="margin"><span>Minimum paper margin <output id="margin-value">7 mm</output></span><input id="margin" type="range" min="0" max="20" step="1" value="7"></label>
       <p class="aside-note">Margins are applied to the actual Bézier paths, without SVG transforms. The effective scale may be reduced to fit the page.</p>
       <fieldset class="layers"><legend>Visible / exported pen layers</legend>
         <label><input type="checkbox" data-layer="frame" checked><span>Architectural frame</span><small>01</small></label>
@@ -63,19 +67,19 @@
         <label><input type="checkbox" data-layer="hatching" checked><span>Shading lines</span><small>04</small></label>
       </fieldset>
       <button id="export" class="primary-button" type="button"><span>↓</span> Export SVG for plotter</button>
-      <button id="reset" class="subtle-button" type="button">Restore Milestone 3 defaults</button>
+      <button id="reset" class="subtle-button" type="button">Restore curated portrait defaults</button>
       <button id="legacy" class="subtle-button" type="button">Load Milestone 1 reference</button>
       <p class="aside-note">No account, cloud service or image model required. Everything is generated in your browser.</p>
     </aside>
 
     <section class="stage-area" aria-labelledby="artwork-title">
-      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">Expressive portrait study</h2></div>
+      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">The Muse — curated portrait no. 01</h2></div>
         <span id="paper-tag" class="paper-tag">A4 · MONOCHROME</span></div>
       <div class="sheet-zone"><div class="sheet" id="preview" role="img" aria-label="Preview of generated black-and-white Art Nouveau figurative study"></div></div>
       <div class="art-bottom"><div><span class="metric-label">Vector paths</span><strong id="path-count">—</strong></div>
         <div><span class="metric-label">Pen-down distance (approx.)</span><strong id="pen-length">—</strong></div>
         <div><span class="metric-label">Artwork seed</span><strong id="seed-caption">—</strong></div></div>
-      <div class="notice"><span class="notice-dot"></span><p><strong>Milestone 3 evaluation.</strong> Refined, larger faces with half-lidded almond eyes, more nuanced lips and flowing hair. These remain original procedural studies, not reproductions of historical portraits. Please review anatomy and plot quality before accepting this stage.</p></div>
+      <div class="notice"><span class="notice-dot"></span><p><strong>Milestone 3.2a evaluation.</strong> A single, hand-curated face and hairstyle, surrounded by seeded Art Nouveau ornament. Please inspect the face and test the A6 SVG on your T-A4 before we expand the library.</p></div>
       <p class="scale-note" id="fit-info" aria-live="polite"></p>
       <p id="status" class="sr-only" role="status" aria-live="polite"></p>
     </section>

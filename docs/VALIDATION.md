@@ -155,3 +155,38 @@ not a reproduction of a particular historical artwork.
 - [ ] Export new A6 portrait, import to SVG Plotter and confirm page scale.
 - [ ] Plot the A6 sample on the T-A4; review fine eye/lip line quality.
 - [ ] Record refinements before broadening into AI-assisted image models.
+
+---
+
+# Milestone 03.2a — first curated portrait SVG (8 November 2026)
+
+**Scope:** Sarah Bernhardt tribute poster selected as **stylistic reference**;
+new original, hand-authored face-and-hair vector portrait (not automatic tracing).
+The uploaded poster image itself is not embedded in any SVG.
+
+- **Red:** first 9 new tests failed because `portrait-muse.js` was not implemented.
+- **Green:** implemented fixed vector geometry, seed-independent face/hair,
+  restrained botanical surround and a new browser portrait selector.
+- **Tests:** **81 passing** (including 12 new curated portrait/source/UI checks);
+  all old output regression hashes retain their expected values.
+- **A6 sample:** `nouveau-curated-muse-01-A6.svg` — **157 paths**, approximately
+  **3.70 metres** of pen-down travel, four stroke layers, 105 × 148 mm.
+- **Face-only asset:** `assets/portraits/muse-01.svg`, regenerated from
+  `src/portrait-muse.js`, independent of seed and surrounding ornament.
+- **Drawing safety:** tested 24 seeds and frame/flower variations; under 600
+  paths and 20 metres A6. No bitmap, SVG text, transforms, or external links.
+- **Illustration review:** rendered SVG to PNG on white paper; the portrait
+  still reflects stylised hand-authored geometry and requires the user's
+  assessment for likeness and anatomical subtlety.
+
+## Acceptance requirements
+
+- [ ] Safari live preview: change seed and botanicals; facial features unchanged.
+- [ ] Change frame, flowers, curve expression and hatching while dragging controls.
+- [ ] Export A6 composition; import into SVG Plotter and check true paper size.
+- [ ] Import `assets/portraits/muse-01.svg` separately, check pen paths.
+- [ ] Physical A6 T-A4 plot of both face and full composition.
+- [ ] Obtain specific face/hair feedback and user sign-off before slot 02.
+
+The other five portraits have **not** been created. This is an evaluation
+release rather than a completed six-portrait catalogue.
