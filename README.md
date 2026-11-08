@@ -6,7 +6,40 @@
 
 **GitHub Pages launch address:** <https://gwb2025.github.io/nouveau-line-studio/>
 
-> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. Milestone 3.1 is a **face-refinement evaluation release**: the new close-up portrait is structurally tested but has not yet received a physical T-A4 plot or artistic acceptance.
+> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. The latest **Milestone 3.2a** release adds the first curated portrait. SVG conversion and software tests pass, but the new portrait still needs artistic review and a physical T-A4 trial.
+
+## Milestone 03.2a — Curated Portrait Library (first portrait for review)
+
+The **Curated portrait** mode uses an **individually authored, fixed face and
+hairstyle** rather than trying to generate realistic anatomy from random
+parameters. The first portrait, **01 — The Muse (frontal lilies)**, takes its
+artistic direction from the floral-crowned woman in Mucha's *Sarah Bernhardt*
+tribute poster. It is our own hand-curated vector interpretation, not a literal
+tracing or a claim of reproducing the historical portrait. The uploaded small
+reference image is **not** embedded in any artwork.
+
+![The Muse — first curated A6 vector composition](samples/nouveau-curated-muse-01-A6.svg)
+
+- **[Open the complete A6 composition](samples/nouveau-curated-muse-01-A6.svg)**
+- **[Open only the fixed portrait SVG](assets/portraits/muse-01.svg)**
+- **[Portrait asset catalogue and provenance](assets/portraits/README.md)**
+
+The **seed**, **flower type**, **density**, **curvature** and **symmetry** alter
+only the *surrounding ornament*. The face, eyes, lips, hair and clothing remain
+stable and suitable for review. The layer checkboxes let users suppress the
+background or shading while retaining true pen strokes. The application
+currently offers **only one portrait**. Portraits 02–06 are future slots, not
+finished images, and will be selected after your evaluation of number 01.
+
+The initial A6 example uses seed `20261108`, lilies and the oval halo:
+**157 paths**, approximately **3.70 m** of pen-down travel, 105 × 148 mm.
+All SVG geometry is drawn in cubic Bézier curves or lines, with no embedded
+bitmap, filled black areas or SVG transforms. A purely procedural *Expressive
+portrait* remains separately selectable for comparison.
+
+**Acceptance gate:** inspect the face and hair against the supplied references;
+import the complete A6 SVG and standalone face into SVG Plotter; check scale
+and details; perform a physical plot before producing the other five portraits.
 
 ## Milestone 03.1 — Expressive portrait study (experimental review)
 
@@ -114,7 +147,7 @@ npm test        # Node.js built-in test runner, no npm install needed
 npm run check   # Tests + sample SVG validation/generation
 ```
 
-`npm run check` refreshes all four validated example SVGs and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
+`npm run check` refreshes all five validated example SVGs and the curated face-only asset and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
 
 ### Export to Writing Robot T-A4
 
@@ -147,9 +180,10 @@ nouveau-line-studio/
 │   ├── generator.js            # Pure generator and SVG export
 │   ├── live-controls.js        # Responsive frame-scheduled redraws
 │   └── app.js                  # Browser event handling
-├── tests/                      # 69 node:test regression and behavioural tests
+├── tests/                      # 81 node:test regression and behavioural tests
 ├── scripts/validate.mjs        # Reproducible sample validation
-├── samples/                    # A4 example SVG and preview image
+├── assets/portraits/           # Curated, reusable vector portrait library
+├── samples/                    # Seeded SVG examples and previews
 ├── docs/VALIDATION.md          # Evidence and physical test checklist
 ├── docs/ROADMAP.md             # Stage gates before continuing
 └── .github/workflows/ci-pages.yml
@@ -164,7 +198,7 @@ nouveau-line-studio/
 | **03 — refinement** | Parametric figures plus new enlarged, expressive face study | Anatomy and face-expression review; SVG Plotter import; plotted portrait test |
 | **04 — optional** | AI-assisted figures followed by vector simplification | Quality, licensing, offline/cloud costs, and SVG plot quality reviewed separately |
 
-**No stage proceeds automatically.** Milestone 3 was explicitly requested; Milestone 4 needs a new decision after figurative plotting tests.
+**No stage proceeds automatically.** The first curated portrait is explicitly authorised; the other five remain on hold until its artistic quality and plotting have been reviewed.
 
 ### Engineering approach
 

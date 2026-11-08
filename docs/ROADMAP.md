@@ -55,6 +55,28 @@ This first figure engine is deliberately stylised, not anatomy-accurate portrait
   Plotter import and real A6 T-A4 pen plot. Do not begin Milestone 04 without
   the user explicitly approving this figurative direction.
 
+## Milestone 03.2 — Curated Portrait Library (first of six, user evaluation required)
+
+- [x] Based on the user's four Mucha reference illustrations, choose the
+  frontal Sarah Bernhardt figure as an artistic starting point.
+- [x] First *original hand-curated* Bézier portrait (face, flowing hair,
+  lilied headpiece, neck, shoulders, clothing), not a bitmap trace.
+- [x] Reusable standalone SVG asset in `assets/portraits/muse-01.svg`.
+- [x] New **Curated portrait** mode with **01 — The Muse** selector;
+  seed, flowers and frames vary **without varying the face**.
+- [x] Tested pen-safe layers, fixed facial paths, 24 random seed/ornament
+  combinations, margins and old Classic SVG hash; 81 automated tests passed.
+- [x] A6 example saved to `samples/nouveau-curated-muse-01-A6.svg`.
+- [ ] User accepts the portrait's facial expression and hairstyle after comparing
+  it with their supplied Mucha examples.
+- [ ] Import both standalone portrait and full A6 composition into SVG Plotter.
+- [ ] Physically plot and inspect eye/nose/lip clarity and hair intersections.
+- [ ] Only then select and draw the other five approved portraits.
+
+**Do not** label missing portraits as working choices. Face is a constant
+asset; random seeds influence ornamentation only. Existing Classic, Organic,
+Figure and Expressive portrait engines must remain unchanged.
+
 ## Milestone 04 — AI-assisted line-art (optional, not started)
 
 Review model licensing, offline execution and vector extraction. Compare AI artwork quality against procedural linework before integration.

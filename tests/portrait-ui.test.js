@@ -13,8 +13,8 @@ const portrait = { composition: 'portrait', seed: '20261108', page: 'A6',
   dress: 'gown', flower: 'lily', frame: 'halo', hatching: 45,
   density: 65, curvature: 75, scale: 110, margin: 8 };
 
-test('new portrait engine is clearly selected and original figure remains available', () => {
-  assert.match(html, /value="portrait" selected/);
+test('expressive portrait and original figure remain selectable alongside curated portrait', () => {
+  assert.match(html, /value="portrait"/);
   assert.match(html, /value="figure">Original figure/);
   assert.match(html, /id="gaze"/);
   assert.match(html, /value="lowered" selected/);
