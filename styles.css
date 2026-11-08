@@ -3,3 +3,5 @@
 .primary-button:disabled{opacity:.5;cursor:not-allowed}
 
 .scale-note{max-width:770px;margin:12px auto 0;color:#718073;font:11px/1.5 Arial,Helvetica,sans-serif}.field select:disabled,.range-field input:disabled{opacity:.5;cursor:not-allowed}
+
+.figure-controls{margin:18px 0;padding:12px 14px;border:1px solid #c8cbbc;background:#e9ede5}.figure-controls legend{color:#526552;font:700 11px Arial,sans-serif;letter-spacing:.7px;padding:0 4px}.figure-controls .field{margin:10px 0 14px}.figure-controls .field:last-child{margin-bottom:5px}.figure-controls select:disabled{opacity:.55}

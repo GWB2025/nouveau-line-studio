@@ -15,6 +15,13 @@ const samples = [
       curvature: 75, hatching: 55, page: 'A6', composition: 'organic',
       symmetry: 70, frame: 'arch', shading: 'contour', scale: 115, margin: 8 },
   },
+  {
+    filename: 'nouveau-figure-seed-20261108-A6.svg',
+    options: { composition: 'figure', seed: '20261108', page: 'A6',
+      figurePose: 'three-quarter', hairstyle: 'waves', dress: 'gown',
+      flower: 'lily', frame: 'halo', density: 65, curvature: 70,
+      hatching: 45, shading: 'contour', scale: 100, margin: 8, symmetry: 70 },
+  },
 ];
 mkdirSync(new URL('../samples/', import.meta.url), { recursive: true });
 for (const sample of samples) {
