@@ -22,7 +22,7 @@ function decorativeCurl(layers, x, y, mirror, size = 1) {
       x + mirror * size * 1, y + size * 7, x + mirror * size * 9, y + size * 11));
 }
 
-function drawFrame(layers, variant) {
+export function drawFrame(layers, variant) {
   if (variant === 'halo') {
     add(layers, 'frame', ellipsePath(150, 209, 122, 175));
     add(layers, 'frame', ellipsePath(150, 209, 115, 168));

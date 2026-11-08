@@ -3,13 +3,15 @@ import { createFrameUpdater } from './live-controls.js';
 
 const DEFAULTS = Object.freeze({
   seed: '20261108', flower: 'mixed', density: 70, curvature: 75,
-  hatching: 55, page: 'A6', composition: 'organic', symmetry: 70,
-  frame: 'arch', shading: 'contour', scale: 115, margin: 8,
+  hatching: 55, page: 'A6', composition: 'figure', symmetry: 70,
+  frame: 'halo', shading: 'contour', scale: 115, margin: 8,
+  figurePose: 'three-quarter', hairstyle: 'waves', dress: 'gown',
 });
 const CLASSIC = Object.freeze({
   seed: '2412028838', flower: 'lily', density: 65, curvature: 75,
   hatching: 40, page: 'A6', composition: 'classic', symmetry: 100,
   frame: 'arch', shading: 'contour', scale: 100, margin: 0,
+  figurePose: 'three-quarter', hairstyle: 'waves', dress: 'gown',
 });
 const FIELDS = Object.keys(DEFAULTS);
 const $ = id => document.getElementById(id);
@@ -43,7 +45,11 @@ function updatePreview() {
   // A hidden shading layer cannot respond visually to the hatching slider.
   $('hatching').disabled = !visibleLayers.includes('hatching');
   const classic = artwork.options.composition === 'classic';
+  const figurative = artwork.options.composition === 'figure';
   for (const name of ['symmetry', 'frame', 'shading']) $(name).disabled = classic;
+  for (const name of ['figurePose', 'hairstyle', 'dress']) $(name).disabled = !figurative;
+  $('flower').disabled = false;
+  $('artwork-title').textContent = figurative ? 'Figurative study no. 03' : 'Botanical study';
   for (const name of ['density', 'curvature', 'hatching', 'symmetry', 'scale']) {
     $(`${name}-value`).textContent = `${artwork.options[name]}%`;
   }
@@ -56,7 +62,7 @@ function exportSvg() {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
   const safeSeed = artwork.options.seed.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 40);
-  anchor.download = `nouveau-${artwork.options.flower}-${safeSeed}-${artwork.options.page}.svg`;
+  anchor.download = `nouveau-${artwork.options.composition === 'figure' ? 'figure' : artwork.options.flower}-${safeSeed}-${artwork.options.page}.svg`;
   anchor.href = url;
   document.body.append(anchor);
   anchor.click();

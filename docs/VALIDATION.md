@@ -94,3 +94,30 @@ small effect particularly hard to see in the browser preview.
 - [ ] Export and import an Organic A6 example into SVG Plotter.
 - [ ] Plot an Organic sample on the Writing Robot T-A4 and inspect the hatching.
 - [ ] Sign off before starting Milestone 03.
+
+
+---
+
+# Milestone 03 — figure study implementation (8 November 2026)
+
+**Status:** software checks passed; real Safari and physical plot checks outstanding.
+
+## Test-driven approach
+
+- **Red:** wrote `tests/milestone3.test.js` before the figure modules. `npm test` failed due to missing `src/figure-primitives.js`.
+- **Green:** built pure deterministic landmarks, face projection, SVG Bézier strokes, figurative composition, generator integration, then browser UI controls.
+- **Refactor:** reused existing physical layout and frame drawing rather than duplicating their rules. All four SVG layers remain independent and plotter friendly.
+- **Regressions:** verified the exact Classic A6 SVG SHA-256 `192a1ca23727c08535ba5825f8fe84774600803fdb38582c7f90bb0490e5534a` and Organic A6 SHA-256 `e676c0452af8753939b0e02c16b028a00b7e33d1fd9b38285d7b11687fd1201f`.
+- **Unit/integration:** 56 automated tests passing via Node.js built-in runner.
+- **Example:** `nouveau-figure-seed-20261108-A6.svg`, 133 paths, estimated pen-down 2.94 m, portrait A6, 8 mm requested minimum margin. No raster images or SVG transformations.
+- **Variation:** three face poses, three hairstyles, two drapery modes; independent shading and botanical accents.
+- **Limits:** 25 demanding seed/pose/hair combinations all below 900 paths, 30 m of pen-down travel, and fitted within requested page margins.
+- **Visual check:** example SVG rendered successfully to PNG for manual visual inspection. The portraits are simplified procedural studies; facial anatomy is not independently clinically or artistically validated.
+
+## Remaining acceptance
+
+- [ ] Open GitHub Pages release in Safari and verify figure control interactions.
+- [ ] Inspect multiple figures and provide anatomy / appearance feedback.
+- [ ] Import A6 figure SVG into SVG Plotter, preserving page dimensions and stroke layers.
+- [ ] Plot actual artwork with T-A4 using a fine black pen, photograph the result and check overdraw, curve precision and elapsed time.
+- [ ] Record user approval or requested improvements before starting any Milestone 4 work.

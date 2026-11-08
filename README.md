@@ -1,12 +1,31 @@
 # Nouveau Line Studio
 
-**Generative black-and-white Art Nouveau botanical compositions, designed for pen plotting.**
+**Original black-and-white Art Nouveau-inspired figurative and botanical compositions for pen plotting.**
 
 [![Launch Nouveau Line Studio](https://img.shields.io/badge/%E2%9D%A6_LAUNCH-NOUVEAU_LINE_STUDIO-385b45?style=for-the-badge&labelColor=1d3927)](https://gwb2025.github.io/nouveau-line-studio/)
 
 **GitHub Pages launch address:** <https://gwb2025.github.io/nouveau-line-studio/>
 
-> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. Milestone 2 should be released only after automated checks pass.
+> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. Milestone 3 is an **evaluation release**: the figure SVG has not yet received a physical T-A4 plot or anatomy acceptance.
+
+## Milestone 03 — Parametric figurative studies (evaluation release)
+
+Milestone 3 introduces a third, entirely procedural engine. It draws **stylised human faces, hair and upper-body clothing directly as plotter-friendly SVG paths**. The geometric illustrations are original, not copies of Mucha's drawings, and deliberately do **not** claim photorealistic anatomy. Use the composition selector to switch between **Figurative**, **Organic** and **Classic**.
+
+- **Pose:** frontal, three-quarter and right-facing profile contour grammars.
+- **Hairstyles:** flowing waves, chignon/updo and a decorative braid.
+- **Drapery:** flowing gown with a pendant, or a draped shawl.
+- **Botanical surrounds:** seeded lilies, irises or poppy-inspired stylisations arranged beside the figure.
+- **Frames:** retain arch, halo and trellis frames from Milestone 2.
+- **Curve expression / hatching:** affect the figure's garments, hair and separate pen-shading layer, with live preview redraw while dragging sliders.
+- **Compatibility:** existing A4/A5/A6 paper sizes, seeded reproducibility, plotter-safe curves and 4 independent SVG layers. No SVG transforms, bitmap images, fonts or cloud AI services.
+- **Protection:** the user-approved Classic SVG and Milestone 2 Organic A6 sample retain exact SHA-256 regression hashes.
+
+**[Open the new A6 figurative sample](samples/nouveau-figure-seed-20261108-A6.svg)** (seed `20261108`, three-quarter view, flowing hair, gown and oval halo; **133 paths, about 2.94 m of pen-down motion**). Other poses and hairstyles may have different path counts.
+
+### Acceptance gate before Milestone 4
+
+Please check the **anatomy**, **stylistic quality** and **SVG Plotter import** independently. Start with the saved A6 sample, then test different poses and hair. Physically plot at least one figure using the T-A4 before deciding whether the procedural approach needs improving or whether AI-assisted figures are worthwhile. **We will not begin Milestone 4 without a new decision.** The previously outstanding Milestone 2 physical checks remain open separately; the user explicitly authorised implementation of Milestone 3.
 
 ## Milestone 02 — Expressive botanical compositions (evaluation release)
 
@@ -28,7 +47,7 @@ Milestone 2 adds an **Organic** generator without altering the **Classic** engin
 
 ## Milestone 01 — Botanical ornament (validated reference)
 
-The original release creates **original** monochrome Art Nouveau-inspired floral ornaments. It does not copy Mucha's drawings or claim to generate human figures yet.
+The original release creates **original** monochrome Art Nouveau-inspired floral ornaments. It does not copy Mucha's drawings; it remains available unchanged alongside the newer figurative generator.
 
 - Reproducible random seed; different seeds create different drawings.
 - Lily, poppy and iris-inspired motifs; adjustable foliage density, curvature and fine hatching.
@@ -38,7 +57,9 @@ The original release creates **original** monochrome Art Nouveau-inspired floral
 - An indicative pen-down distance and path count; these are **not** a physical plotting-time estimate.
 - Works entirely in the browser with no account and no third-party dependencies.
 
-![Milestone 2 botanical composition](samples/nouveau-mixed-seed-20261108-A6.svg)
+![Milestone 3 figurative study](samples/nouveau-figure-seed-20261108-A6.svg)
+
+[View the Milestone 2 botanical sample](samples/nouveau-mixed-seed-20261108-A6.svg)
 
 Classic reference: ![Original Milestone 1 ornament](samples/preview-white.png)
 
@@ -67,7 +88,7 @@ npm test        # Node.js built-in test runner, no npm install needed
 npm run check   # Tests + sample SVG validation/generation
 ```
 
-`npm run check` refreshes both example SVGs and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
+`npm run check` refreshes all three validated example SVGs and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
 
 ### Export to Writing Robot T-A4
 
@@ -76,7 +97,7 @@ npm run check   # Tests + sample SVG validation/generation
 3. Select **Export SVG for plotter**.
 4. Import the SVG into your SVG Plotter app. First inspect the path count, physical scaling and preview; begin with a small low-density test plot.
 
-All layers use open or continuous stroked `<path>` elements, with simple groups, black strokes and no fills. The **Classic** drawing has been imported and plotted successfully on the T-A4. The revised **Organic** drawing still needs its own physical test. Previewing in a web browser is not evidence of hardware compatibility.
+All layers use open or continuous stroked `<path>` elements, with simple groups, black strokes and no fills. The **Classic** drawing has been imported and plotted successfully on the T-A4. The **Organic** and **Figurative** drawings still need separate physical tests. Previewing in a web browser is not evidence of hardware compatibility.
 
 ## Project layout
 
@@ -91,12 +112,14 @@ nouveau-line-studio/
 │   ├── geometry.js             # Bézier and path primitives
 │   ├── layout.js               # Physical margin/scale fitting
 │   ├── composition.js          # Organic flower planning and safe hatching
-│   ├── organic.js              # Milestone 2 compositions
+│   ├── organic.js              # Milestone 2 compositions and reusable frames
+│   ├── figure-primitives.js    # Stable facial landmarks and pose projection
+│   ├── figure.js               # Milestone 3 vector faces, hair, drapery and ornaments
 │   ├── botany.js               # Procedural botanical composition
 │   ├── generator.js            # Pure generator and SVG export
 │   ├── live-controls.js        # Responsive frame-scheduled redraws
 │   └── app.js                  # Browser event handling
-├── tests/                      # 42 node:test regression and behavioural tests
+├── tests/                      # 56 node:test regression and behavioural tests
 ├── scripts/validate.mjs        # Reproducible sample validation
 ├── samples/                    # A4 example SVG and preview image
 ├── docs/VALIDATION.md          # Evidence and physical test checklist
@@ -109,11 +132,11 @@ nouveau-line-studio/
 | Stage | Scope | Gate before next stage |
 |---|---|---|
 | **01 — passed** | Seeded ornamental flora, curves, SVG layers, paper sizes, UI | Automated tests; visual evaluation; SVG Plotter import; physical T-A4 small plot |
-| **02 — evaluation** | More authentic Art Nouveau botanicals, line-hatching and compositional grammars | Repeatability, style evaluation, complexity budgets and physical plots |
-| **03 — planned** | Parametric face/figure outlines, hairstyles, drapery | Anatomy and composition review; plotted figure tests |
+| **02 — implemented** | More authentic Art Nouveau botanicals, line-hatching and compositional grammars | Technical checks pass; physical botanical acceptance remains open |
+| **03 — evaluation** | Parametric face/figure outlines, hairstyles, drapery | Anatomy and composition review; plotted figure tests |
 | **04 — optional** | AI-assisted figures followed by vector simplification | Quality, licensing, offline/cloud costs, and SVG plot quality reviewed separately |
 
-**No stage proceeds automatically.** Stage 02 requires explicit review of Stage 01 results.
+**No stage proceeds automatically.** Milestone 3 was explicitly requested; Milestone 4 needs a new decision after figurative plotting tests.
 
 ### Engineering approach
 

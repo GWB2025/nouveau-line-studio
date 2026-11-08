@@ -1,6 +1,7 @@
 import { SeededRandom } from './prng.js';
 import { buildBotanicalComposition } from './botany.js';
 import { buildOrganicComposition } from './organic.js';
+import { buildFigureComposition } from './figure.js';
 import { fitPathsToPage } from './layout.js';
 
 const PAPER = Object.freeze({ A4: [210, 297], A5: [148, 210], A6: [105, 148] });
@@ -29,7 +30,10 @@ export function sanitiseOptions(raw = {}) {
     curvature: bounded(raw.curvature, 75),
     hatching: bounded(raw.hatching, 40),
     page,
-    composition: raw.composition === 'organic' ? 'organic' : 'classic',
+    composition: ['organic', 'figure'].includes(raw.composition) ? raw.composition : 'classic',
+    figurePose: ['front', 'three-quarter', 'profile'].includes(raw.figurePose) ? raw.figurePose : 'three-quarter',
+    hairstyle: ['waves', 'updo', 'braid'].includes(raw.hairstyle) ? raw.hairstyle : 'waves',
+    dress: ['gown', 'shawl'].includes(raw.dress) ? raw.dress : 'gown',
     symmetry: bounded(raw.symmetry, 100),
     frame: ['arch', 'halo', 'trellis'].includes(raw.frame) ? raw.frame : 'arch',
     shading: raw.shading === 'crosshatch' ? 'crosshatch' : 'contour',
@@ -48,9 +52,11 @@ export function createArtwork(rawOptions = {}) {
   const options = sanitiseOptions(rawOptions);
   const rng = new SeededRandom(`${options.seed}|botanical|${options.flower}`);
   const hatchRng = new SeededRandom(`${options.seed}|hatching`);
-  const rawLayers = options.composition === 'organic'
-    ? buildOrganicComposition(options)
-    : buildBotanicalComposition(options, rng, hatchRng);
+  const rawLayers = options.composition === 'figure'
+    ? buildFigureComposition(options)
+    : options.composition === 'organic'
+      ? buildOrganicComposition(options)
+      : buildBotanicalComposition(options, rng, hatchRng);
   const [widthMm, heightMm] = PAPER[options.page];
   const { layers, effectiveScale } = fitPathsToPage(rawLayers,
     widthMm, heightMm, options.scale, options.margin);
@@ -71,17 +77,18 @@ export function createArtwork(rawOptions = {}) {
 export function renderSvg(artwork, enabledLayers = ORDER) {
   const { options, layers, metrics } = artwork;
   const permitted = new Set(enabledLayers);
+  const subject = options.composition === 'figure' ? 'figurative study' : `${options.flower} ornament`;
   const parts = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     `<svg xmlns="http://www.w3.org/2000/svg" width="${metrics.pageWidthMm}mm" height="${metrics.pageHeightMm}mm" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid meet">`,
-    `  <title>Nouveau Line Studio — ${escapeXml(options.flower)} ornament</title>`,
+    `  <title>Nouveau Line Studio — ${escapeXml(subject)}</title>`,
     `  <desc>Original seeded vector artwork. Seed: ${escapeXml(options.seed)}. No bitmap images; paths suitable for pen plotting.</desc>`,
   ];
   for (const name of ORDER) {
     if (!permitted.has(name)) continue;
     // On-screen organic hatching was sub-pixel at A6; the pen plotter still
     // follows the same centreline paths irrespective of preview stroke width.
-    const width = name === 'hatching' && options.composition === 'organic'
+    const width = name === 'hatching' && options.composition !== 'classic'
       ? 0.48 : STROKES[name];
     parts.push(`  <g id="layer-${name}" fill="none" stroke="#111111" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">`);
     for (const path of layers[name]) {

@@ -14,16 +14,21 @@
       <div class="eyebrow">An experimental vector atelier</div>
       <h1>Nouveau <em>Line</em> Studio</h1>
     </div></div>
-    <div class="masthead-right"><span class="stage">MILESTONE 02</span><span class="stage-name">Expressive botany</span></div>
+    <div class="masthead-right"><span class="stage">MILESTONE 03</span><span class="stage-name">Figurative studies</span></div>
   </header>
 
   <main class="workspace">
     <aside class="controls" aria-label="Artwork controls">
       <div class="section-head"><span>01 / COMPOSITION</span><div class="hairline"></div></div>
-      <p class="intro">Explore original botanical linework, with controllable asymmetry, frames and plotter-safe hatching. Choose Classic to reproduce Milestone 1.</p>
+      <p class="intro">Explore original line-drawn figures with flowing hair, drapery and botanical frames. The earlier Organic and Classic botanical engines remain available.</p>
       <label class="field" for="composition"><span>Composition engine</span>
-        <select id="composition"><option value="organic">Organic — Milestone 2</option><option value="classic">Classic — Milestone 1</option></select>
+        <select id="composition"><option value="figure" selected>Figurative — Milestone 3</option><option value="organic">Organic — Milestone 2</option><option value="classic">Classic — Milestone 1</option></select>
       </label>
+      <fieldset class="figure-controls" id="figure-controls"><legend>Figurative study controls</legend>
+        <label class="field" for="figurePose"><span>Head and figure pose</span><select id="figurePose"><option value="front">Frontal</option><option value="three-quarter" selected>Three-quarter</option><option value="profile">Profile</option></select></label>
+        <label class="field" for="hairstyle"><span>Hairstyle</span><select id="hairstyle"><option value="waves" selected>Long flowing waves</option><option value="updo">Chignon / updo</option><option value="braid">Braided hair</option></select></label>
+        <label class="field" for="dress"><span>Drapery</span><select id="dress"><option value="gown" selected>Flowing gown</option><option value="shawl">Draped shawl</option></select></label>
+      </fieldset>
       <label class="field" for="flower"><span>Floral motif</span>
         <select id="flower"><option value="lily">Lilies</option><option value="poppy">Poppies</option><option value="iris">Irises</option><option value="mixed" selected>Mixed flowers</option></select>
       </label>
@@ -32,7 +37,7 @@
       </label>
       <label class="range-field" for="symmetry"><span>Flower placement symmetry <output id="symmetry-value">70%</output></span><input id="symmetry" type="range" min="0" max="100" step="5" value="70"></label>
       <label class="field" for="frame"><span>Architectural frame</span>
-        <select id="frame"><option value="arch">Double arch</option><option value="halo">Oval halo</option><option value="trellis">Trellis</option></select>
+        <select id="frame"><option value="arch">Double arch</option><option value="halo" selected>Oval halo</option><option value="trellis">Trellis</option></select>
       </label>
       <div class="divider"></div>
       <div class="section-head"><span>02 / DETAIL</span><div class="hairline"></div></div>
@@ -57,19 +62,19 @@
         <label><input type="checkbox" data-layer="hatching" checked><span>Shading lines</span><small>04</small></label>
       </fieldset>
       <button id="export" class="primary-button" type="button"><span>↓</span> Export SVG for plotter</button>
-      <button id="reset" class="subtle-button" type="button">Restore Milestone 2 defaults</button>
+      <button id="reset" class="subtle-button" type="button">Restore Milestone 3 defaults</button>
       <button id="legacy" class="subtle-button" type="button">Load Milestone 1 reference</button>
       <p class="aside-note">No account, cloud service or image model required. Everything is generated in your browser.</p>
     </aside>
 
     <section class="stage-area" aria-labelledby="artwork-title">
-      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">Botanical <em>study no. 02</em></h2></div>
+      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">Figurative study no. 03</h2></div>
         <span id="paper-tag" class="paper-tag">A4 · MONOCHROME</span></div>
-      <div class="sheet-zone"><div class="sheet" id="preview" role="img" aria-label="Preview of generated black-and-white Art Nouveau botanical ornament"></div></div>
+      <div class="sheet-zone"><div class="sheet" id="preview" role="img" aria-label="Preview of generated black-and-white Art Nouveau figurative study"></div></div>
       <div class="art-bottom"><div><span class="metric-label">Vector paths</span><strong id="path-count">—</strong></div>
         <div><span class="metric-label">Pen-down distance (approx.)</span><strong id="pen-length">—</strong></div>
         <div><span class="metric-label">Artwork seed</span><strong id="seed-caption">—</strong></div></div>
-      <div class="notice"><span class="notice-dot"></span><p><strong>Milestone 2 evaluation.</strong> New organic floral compositions, alternative frames, controlled symmetry and pen-safe shading. The Classic engine preserves earlier drawings. Human figures remain a later stage.</p></div>
+      <div class="notice"><span class="notice-dot"></span><p><strong>Milestone 3 evaluation.</strong> Stylised human silhouettes, faces, hairstyles and drapery. These are original procedural studies, not historically accurate portraits. Please review anatomy and plot quality before accepting this stage.</p></div>
       <p class="scale-note" id="fit-info" aria-live="polite"></p>
       <p id="status" class="sr-only" role="status" aria-live="polite"></p>
     </section>
