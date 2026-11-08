@@ -22,6 +22,13 @@ const samples = [
       flower: 'lily', frame: 'halo', density: 65, curvature: 70,
       hatching: 45, shading: 'contour', scale: 100, margin: 8, symmetry: 70 },
   },
+  {
+    filename: 'nouveau-portrait-seed-20261108-A6.svg',
+    options: { seed: '20261108', composition: 'portrait', page: 'A6',
+      figurePose: 'three-quarter', gaze: 'lowered', hairstyle: 'waves',
+      dress: 'gown', flower: 'lily', frame: 'halo', hatching: 45,
+      density: 65, curvature: 75, scale: 110, margin: 8 },
+  },
 ];
 mkdirSync(new URL('../samples/', import.meta.url), { recursive: true });
 for (const sample of samples) {

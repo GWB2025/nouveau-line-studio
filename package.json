@@ -1,6 +1,6 @@
 {
   "name": "nouveau-line-studio",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "type": "module",
   "description": "Deterministic black-and-white Art Nouveau SVG botanical and figurative compositions for pen plotters",

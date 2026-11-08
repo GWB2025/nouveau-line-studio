@@ -1,16 +1,40 @@
 # Nouveau Line Studio
 
-**Original black-and-white Art Nouveau-inspired figurative and botanical compositions for pen plotting.**
+**Original black-and-white Art Nouveau-inspired portraits, figures and botanical compositions for pen plotting.**
 
 [![Launch Nouveau Line Studio](https://img.shields.io/badge/%E2%9D%A6_LAUNCH-NOUVEAU_LINE_STUDIO-385b45?style=for-the-badge&labelColor=1d3927)](https://gwb2025.github.io/nouveau-line-studio/)
 
 **GitHub Pages launch address:** <https://gwb2025.github.io/nouveau-line-studio/>
 
-> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. Milestone 3 is an **evaluation release**: the figure SVG has not yet received a physical T-A4 plot or anatomy acceptance.
+> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. Milestone 3.1 is a **face-refinement evaluation release**: the new close-up portrait is structurally tested but has not yet received a physical T-A4 plot or artistic acceptance.
+
+## Milestone 03.1 — Expressive portrait study (experimental review)
+
+The new **Expressive portrait** option gives the face much more space and
+attention than the original Milestone 3 full-figure drawing. It is built directly
+from Bézier paths, with individually planned facial landmarks, restrained
+half-lidded almond eyes, expressive brows, a modelled nose, carefully shaped
+lips and soft cheek/neck contours. Long hair is drawn as separate flowing
+whiplash curves; small flower ornaments sit in the hair, and an open double
+nimbus concentrates attention on the woman's face.
+
+The new **Eye expression and gaze** control offers **Serene / half-lidded**,
+**Direct gaze** and **Looking aside**. Different seeds, poses, hairstyles,
+clothing and hatching can produce different drawings. New values update the
+preview continuously while sliders are dragged.
+
+[**View the new A6 face study in SVG**](samples/nouveau-portrait-seed-20261108-A6.svg)
+· [SVG preview](samples/nouveau-portrait-seed-20261108-A6.svg)
+
+The old **Original figure**, **Organic** and **Classic** engines are still
+available. Their known sample SVGs retain exactly the same SHA-256 hashes.
+The new face geometry is a **first refinement for visual review**, not a claim
+of exact resemblance to Mucha's hand-drawn figure studies. Physical T-A4
+plotting and Safari testing of the new portrait remain outstanding.
 
 ## Milestone 03 — Parametric figurative studies (evaluation release)
 
-Milestone 3 introduces a third, entirely procedural engine. It draws **stylised human faces, hair and upper-body clothing directly as plotter-friendly SVG paths**. The geometric illustrations are original, not copies of Mucha's drawings, and deliberately do **not** claim photorealistic anatomy. Use the composition selector to switch between **Figurative**, **Organic** and **Classic**.
+Milestone 3 introduces a third, entirely procedural engine. It draws **stylised human faces, hair and upper-body clothing directly as plotter-friendly SVG paths**. The geometric illustrations are original, not copies of Mucha's drawings, and deliberately do **not** claim photorealistic anatomy. Use the composition selector to switch between **Expressive portrait**, the original **Figurative** study, **Organic** and **Classic**.
 
 - **Pose:** frontal, three-quarter and right-facing profile contour grammars.
 - **Hairstyles:** flowing waves, chignon/updo and a decorative braid.
@@ -57,7 +81,9 @@ The original release creates **original** monochrome Art Nouveau-inspired floral
 - An indicative pen-down distance and path count; these are **not** a physical plotting-time estimate.
 - Works entirely in the browser with no account and no third-party dependencies.
 
-![Milestone 3 figurative study](samples/nouveau-figure-seed-20261108-A6.svg)
+![Expressive portrait face study](samples/nouveau-portrait-seed-20261108-A6.svg)
+
+[View the original Milestone 3 figure](samples/nouveau-figure-seed-20261108-A6.svg)
 
 [View the Milestone 2 botanical sample](samples/nouveau-mixed-seed-20261108-A6.svg)
 
@@ -88,7 +114,7 @@ npm test        # Node.js built-in test runner, no npm install needed
 npm run check   # Tests + sample SVG validation/generation
 ```
 
-`npm run check` refreshes all three validated example SVGs and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
+`npm run check` refreshes all four validated example SVGs and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
 
 ### Export to Writing Robot T-A4
 
@@ -97,7 +123,7 @@ npm run check   # Tests + sample SVG validation/generation
 3. Select **Export SVG for plotter**.
 4. Import the SVG into your SVG Plotter app. First inspect the path count, physical scaling and preview; begin with a small low-density test plot.
 
-All layers use open or continuous stroked `<path>` elements, with simple groups, black strokes and no fills. The **Classic** drawing has been imported and plotted successfully on the T-A4. The **Organic** and **Figurative** drawings still need separate physical tests. Previewing in a web browser is not evidence of hardware compatibility.
+All layers use open or continuous stroked `<path>` elements, with simple groups, black strokes and no fills. The **Classic** drawing has been imported and plotted successfully on the T-A4. The **Organic**, original **Figurative**, and new **Expressive portrait** drawings still need separate physical tests. Previewing in a web browser is not evidence of hardware compatibility.
 
 ## Project layout
 
@@ -113,13 +139,15 @@ nouveau-line-studio/
 │   ├── layout.js               # Physical margin/scale fitting
 │   ├── composition.js          # Organic flower planning and safe hatching
 │   ├── organic.js              # Milestone 2 compositions and reusable frames
+│   ├── portrait-landmarks.js # Expressive face anatomy and gaze landmarks
+│   ├── portrait.js           # Close-up facial study and flowing hair
 │   ├── figure-primitives.js    # Stable facial landmarks and pose projection
 │   ├── figure.js               # Milestone 3 vector faces, hair, drapery and ornaments
 │   ├── botany.js               # Procedural botanical composition
 │   ├── generator.js            # Pure generator and SVG export
 │   ├── live-controls.js        # Responsive frame-scheduled redraws
 │   └── app.js                  # Browser event handling
-├── tests/                      # 56 node:test regression and behavioural tests
+├── tests/                      # 69 node:test regression and behavioural tests
 ├── scripts/validate.mjs        # Reproducible sample validation
 ├── samples/                    # A4 example SVG and preview image
 ├── docs/VALIDATION.md          # Evidence and physical test checklist
@@ -133,7 +161,7 @@ nouveau-line-studio/
 |---|---|---|
 | **01 — passed** | Seeded ornamental flora, curves, SVG layers, paper sizes, UI | Automated tests; visual evaluation; SVG Plotter import; physical T-A4 small plot |
 | **02 — implemented** | More authentic Art Nouveau botanicals, line-hatching and compositional grammars | Technical checks pass; physical botanical acceptance remains open |
-| **03 — evaluation** | Parametric face/figure outlines, hairstyles, drapery | Anatomy and composition review; plotted figure tests |
+| **03 — refinement** | Parametric figures plus new enlarged, expressive face study | Anatomy and face-expression review; SVG Plotter import; plotted portrait test |
 | **04 — optional** | AI-assisted figures followed by vector simplification | Quality, licensing, offline/cloud costs, and SVG plot quality reviewed separately |
 
 **No stage proceeds automatically.** Milestone 3 was explicitly requested; Milestone 4 needs a new decision after figurative plotting tests.

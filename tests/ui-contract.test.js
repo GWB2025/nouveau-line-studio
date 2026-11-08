@@ -15,7 +15,7 @@ test('every static app DOM reference is present in HTML', () => {
   }
   for (const control of ['seed', 'flower', 'density', 'curvature', 'hatching', 'page',
     'composition', 'symmetry', 'frame', 'shading', 'scale', 'margin',
-    'figurePose', 'hairstyle', 'dress']) {
+    'figurePose', 'hairstyle', 'dress', 'gaze']) {
     assert.ok(ids.includes(control), `missing option #${control}`);
   }
 });
@@ -58,8 +58,9 @@ test('Milestone 3 figurative controls are present and selected by default', () =
   for (const id of ['figurePose', 'hairstyle', 'dress', 'figure-controls']) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
-  assert.match(html, /id="composition"[\s\S]*?value="figure" selected/);
+  assert.match(html, /id="composition"[\s\S]*?value="portrait" selected/);
+  assert.match(html, /value="figure">Original figure/);
   assert.match(html, /id="frame"[\s\S]*?value="halo" selected/);
   assert.match(html, /MILESTONE 03/);
-  assert.match(app, /for \(const name of \['figurePose', 'hairstyle', 'dress'\]\)/);
+  assert.match(app, /for \(const name of \['figurePose', 'hairstyle', 'dress', 'gaze'\]\)/);
 });

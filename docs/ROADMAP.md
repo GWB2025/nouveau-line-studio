@@ -41,6 +41,20 @@ Keep every milestone independently testable. **Do not begin the next milestone b
 
 This first figure engine is deliberately stylised, not anatomy-accurate portraiture or AI-generated raster tracing.
 
+## Milestone 03.1 — Face-focused portrait refinement (implemented for artistic review)
+
+- Original close-up portrait generator with face-specific landmarks and enlarged
+  facial proportions, independent of the earlier stylised figure geometry.
+- Front, three-quarter and profile studies; serene, direct and sideward gaze;
+  flowing hair, chignon and braid styles. Compact headpiece botanicals.
+- SVG-only independent frame, outline, detail and hatching layers; margins,
+  seeding and path budgets remain validated.
+- Previous Classic, Organic and original Figure outputs are checked by exact
+  SHA-256 regression tests.
+- **Open:** visual acceptance of the facial quality, Safari input check, SVG
+  Plotter import and real A6 T-A4 pen plot. Do not begin Milestone 04 without
+  the user explicitly approving this figurative direction.
+
 ## Milestone 04 — AI-assisted line-art (optional, not started)
 
 Review model licensing, offline execution and vector extraction. Compare AI artwork quality against procedural linework before integration.
