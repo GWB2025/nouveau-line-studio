@@ -18,6 +18,8 @@ tribute poster. It is our own hand-curated vector interpretation, not a literal
 tracing or a claim of reproducing the historical portrait. The uploaded small
 reference image is **not** embedded in any artwork.
 
+![The Muse — first curated A6 vector composition](samples/nouveau-curated-muse-01-A6.svg)
+
 - **[Open the complete A6 composition](samples/nouveau-curated-muse-01-A6.svg)**
 - **[Open only the fixed portrait SVG](assets/portraits/muse-01.svg)**
 - **[Portrait asset catalogue and provenance](assets/portraits/README.md)**
