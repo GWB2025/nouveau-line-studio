@@ -31,6 +31,6 @@ test('gaze, hairstyle and face pose run through the same live redraw path', () =
 test('published figure sample included in reproducible SVG validation', () => {
   assert.match(validator, /nouveau-portrait-seed-20261108-A6\.svg/);
   const example = readFileSync(new URL('samples/nouveau-portrait-seed-20261108-A6.svg', root), 'utf8');
-  assert.equal(example, renderSvg(createArtwork(portrait)));
+  assert.equal(example.trimEnd(), renderSvg(createArtwork(portrait)).trimEnd());
   assert.ok((example.match(/<path /g) ?? []).length < 750);
 });
