@@ -1,4 +1,5 @@
 import { createArtwork, renderSvg } from './generator.js';
+import { createFrameUpdater } from './live-controls.js';
 
 const DEFAULTS = Object.freeze({
   seed: '20261108', flower: 'mixed', density: 70, curvature: 75,
@@ -39,6 +40,8 @@ function updatePreview() {
   $('fit-info').textContent = `Effective scale: ${artwork.metrics.effectiveScale.toFixed(1)}% · ` +
     `minimum margin: ${artwork.metrics.marginMm} mm. ` +
     'Length shown excludes pen-up travel and acceleration.';
+  // A hidden shading layer cannot respond visually to the hatching slider.
+  $('hatching').disabled = !visibleLayers.includes('hatching');
   const classic = artwork.options.composition === 'classic';
   for (const name of ['symmetry', 'frame', 'shading']) $(name).disabled = classic;
   for (const name of ['density', 'curvature', 'hatching', 'symmetry', 'scale']) {
@@ -62,12 +65,14 @@ function exportSvg() {
   $('status').textContent = `${anchor.download} exported. Inspect the file in SVG Plotter before a physical plot.`;
 }
 
+const requestPreview = createFrameUpdater(updatePreview, requestAnimationFrame);
+
 for (const name of FIELDS) {
-  $(name).addEventListener('input', updatePreview);
-  $(name).addEventListener('change', updatePreview);
+  $(name).addEventListener('input', requestPreview);
+  $(name).addEventListener('change', requestPreview);
 }
 for (const input of document.querySelectorAll('input[data-layer]')) {
-  input.addEventListener('change', updatePreview);
+  input.addEventListener('change', requestPreview);
 }
 $('randomise').addEventListener('click', () => {
   const bytes = new Uint32Array(1);

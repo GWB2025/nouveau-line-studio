@@ -54,3 +54,43 @@ The first GitHub Pages deployment cannot run until the repository exists and the
 - [ ] Export the provided A6 Milestone 2 SVG and import into SVG Plotter.
 - [ ] Confirm page size, true drawing dimensions, pass layers, command count and physical pen plotting.
 - [ ] Collect photograph and comments, then approve or refine before Milestone 03.
+
+
+---
+
+# Milestone 02 — live-slider correction (8 November 2026)
+
+**Cause:** Organic mode ignored `curvature`; its hatching count was quantised so
+all settings from 5% to 70% produced exactly 58 identical hatching paths for
+seed `20261108`. The SVG hatching stroke width of 0.18 design units made that
+small effect particularly hard to see in the browser preview.
+
+**Test-driven correction:**
+
+- Added tests before the implementation and confirmed failure.
+- Curve expression now continuously adjusts organic flower petal fullness,
+  leaf outlines and Bézier stem controls, without altering the Classic engine.
+- Fine hatching now changes the number **and length/placement of strokes**; it
+  varies on every 5% slider step. At 0% the shading layer contains no paths.
+- Organic shading uses a more legible preview stroke width (0.48 design units);
+  plotted pen movement remains determined by the same SVG centreline paths.
+- All slider `input` events schedule a redraw for the **next animation frame**,
+  using current slider values and coalescing redundant intermediate events.
+- The hatching slider is disabled when the Shading lines layer is hidden.
+- Integrated DOM-mock test confirms changing curvature and hatching via `input`
+  alone updates SVG and percentage labels, without requiring `change` or release.
+- **42 automated tests passed** and `npm run check` validated the SVG samples.
+- Latest sample: `nouveau-mixed-seed-20261108-A6.svg`, **312 paths**, approximately
+  **2.76 metres** pen-down; the original Classic A6 SHA-256 regression still passes.
+- A Chromium interaction test using the real browser was attempted but local
+  HTTP requests were blocked by environment policy. This is **not** a passed
+  browser test and requires confirmation on Safari.
+
+## Remaining acceptance steps
+
+- [ ] Reload the deployed app in Safari; move both sliders from 0% to 100% and
+      confirm the picture and labels update while dragging.
+- [ ] Confirm Classic mode still reproduces the previously approved illustration.
+- [ ] Export and import an Organic A6 example into SVG Plotter.
+- [ ] Plot an Organic sample on the Writing Robot T-A4 and inspect the hatching.
+- [ ] Sign off before starting Milestone 03.
