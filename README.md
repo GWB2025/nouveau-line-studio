@@ -15,13 +15,16 @@ Milestone 2 adds an **Organic** generator without altering the **Classic** engin
 - **Flowers:** lilies, irises, poppies or a mixed bouquet, with seeded natural petal variations.
 - **Composition:** flower-placement symmetry from paired (100%) to intentionally asymmetric (0%); protective spacing between blossoms.
 - **Frames:** architectural double arch, oval halo or trellis.
+- **Curve expression:** changes organic stem sweeps, petal fullness and leaf shapes throughout the 0–100% range.
+- **Fine hatching:** changes the actual number and length of pen paths continuously across the slider; 0% removes shading. Keep the **Shading lines** layer enabled to see it.
+- **Live controls:** slider movements regenerate the preview at the next animation frame, without requiring mouse release.
 - **Shading:** separate contour or crosshatching paths with conservative minimum separation.
 - **Paper:** A4, A5 or A6 portrait, adjustable artwork scale (50–130%) and minimum physical margin (0–20 mm). Bounds are measured from Bézier curves; actual scale is reduced when needed to avoid clipping.
 - **Testing:** original Milestone 1 SVG regression hash, deterministic seeded variation, paper geometry, shading isolation, frame switching, SVG sanitisation, plotting complexity and static UI checks.
 
-**[Open the new Milestone 2 example SVG](samples/nouveau-mixed-seed-20261108-A6.svg)** (A6, seed `20261108`, 281 paths, approximately 2.61 m pen-down). The previous A4 sample remains available below.
+**[Open the new Milestone 2 example SVG](samples/nouveau-mixed-seed-20261108-A6.svg)** (A6, seed `20261108`, 312 paths, approximately 2.76 m pen-down). The previous A4 sample remains available below.
 
-**Important:** Milestone 2 is software-validated. It still needs independent evaluation in Safari, SVG Plotter and on the physical T-A4 before sign-off. A successful Milestone 1 plot is not proof that this new geometry plots correctly.
+**Important:** Milestone 2 and its slider fix are software-validated. It still needs independent evaluation in Safari, SVG Plotter and on the physical T-A4 before sign-off. A successful Milestone 1 plot is not proof that this new geometry plots correctly.
 
 ## Milestone 01 — Botanical ornament (validated reference)
 
@@ -73,7 +76,7 @@ npm run check   # Tests + sample SVG validation/generation
 3. Select **Export SVG for plotter**.
 4. Import the SVG into your SVG Plotter app. First inspect the path count, physical scaling and preview; begin with a small low-density test plot.
 
-All layers use open or continuous stroked `<path>` elements, with simple groups, black strokes and no fills. **The SVG Plotter import and physical T-A4 run have not yet been tested.** Previewing in a web browser is not evidence of hardware compatibility.
+All layers use open or continuous stroked `<path>` elements, with simple groups, black strokes and no fills. The **Classic** drawing has been imported and plotted successfully on the T-A4. The revised **Organic** drawing still needs its own physical test. Previewing in a web browser is not evidence of hardware compatibility.
 
 ## Project layout
 
@@ -91,8 +94,9 @@ nouveau-line-studio/
 │   ├── organic.js              # Milestone 2 compositions
 │   ├── botany.js               # Procedural botanical composition
 │   ├── generator.js            # Pure generator and SVG export
+│   ├── live-controls.js        # Responsive frame-scheduled redraws
 │   └── app.js                  # Browser event handling
-├── tests/                      # 36 node:test regression and behavioural tests
+├── tests/                      # 42 node:test regression and behavioural tests
 ├── scripts/validate.mjs        # Reproducible sample validation
 ├── samples/                    # A4 example SVG and preview image
 ├── docs/VALIDATION.md          # Evidence and physical test checklist

@@ -72,27 +72,29 @@ function drawFrame(layers, variant) {
   }
 }
 
-function leafShape(layers, base, angle, size, widening, shadeAmount, shading) {
+function leafShape(layers, base, angle, size, widening, shadeAmount, shading, curvature) {
   const p = (u, v) => localPoint(base.x, base.y, angle, u, v);
-  const width = size * widening;
+  const flow = curvature / 100;
+  const ink = shadeAmount / 100;
+  const width = size * widening * (0.52 + flow * 0.75);
   const a = p(0, 0);
-  const tip = p(size, 0);
+  const tip = p(size, -size * flow * 0.045);
   const upper = p(size * 0.45, -width);
-  const lower = p(size * 0.43, width);
+  const lower = p(size * 0.43, width * (0.77 + 0.2 * flow));
   add(layers, 'outlines', new Path().moveTo(a.x, a.y)
     .cubicTo(...[p(size * 0.24, -width * 0.72).x, p(size * 0.24, -width * 0.72).y],
       upper.x, upper.y, tip.x, tip.y)
     .cubicTo(lower.x, lower.y, p(size * 0.16, width * 0.75).x,
       p(size * 0.16, width * 0.75).y, a.x, a.y));
-  const m = p(size * 0.6, 0);
+  const m = p(size * 0.6, -size * flow * 0.018);
   stroke(layers, 'detail', a, p(size * 0.25, 0), m, tip);
-  for (const offset of hatchStrokes(size * 0.46, shadeAmount * 0.4, 4.5)) {
+  for (const offset of hatchStrokes(size * 0.46, shadeAmount * 0.7, 4.5)) {
     const t = 0.27 + offset / (size * 2.2);
     const u = size * t;
-    const basePoint = p(u, 0.5);
-    const endPoint = p(u + size * 0.04, width * 0.52);
-    stroke(layers, 'hatching', basePoint, p(u + 1.2, width * 0.14),
-      p(u + 1, width * 0.42), endPoint);
+    const basePoint = p(u, width * 0.08);
+    const endPoint = p(u + size * (0.02 + 0.06 * ink), width * (0.28 + 0.6 * ink));
+    stroke(layers, 'hatching', basePoint, p(u + 1.2, width * 0.2),
+      p(u + 1, width * (0.22 + 0.5 * ink)), endPoint);
     if (shading === 'crosshatch') {
       stroke(layers, 'hatching', p(u + size * 0.08, width * 0.43),
         p(u + size * 0.055, width * 0.25),
@@ -105,12 +107,14 @@ function flower(layers, centre, variant, rng, options) {
   const { x, y, size } = centre;
   const petalCount = variant === 'poppy' ? 5 : 6;
   const wide = variant === 'poppy' ? 0.66 : variant === 'iris' ? 0.43 : 0.34;
+  const flow = options.curvature / 100;
+  const ink = options.hatching / 100;
   const phase = rng.between(-0.28, 0.28) - Math.PI / 2;
   for (let index = 0; index < petalCount; index += 1) {
     const angle = phase + index * TAU / petalCount;
     const irregular = variant === 'iris' && index % 2 ? 0.78 : 1;
     const radius = size * irregular * rng.between(0.83, 1.12);
-    const width = radius * wide * rng.between(0.86, 1.13);
+    const width = radius * wide * rng.between(0.86, 1.13) * (0.55 + 0.8 * flow);
     const p = (u, v) => localPoint(x, y, angle, u, v);
     const start = p(2.7, 0);
     const tip = p(radius, rng.between(-0.09, 0.09) * width);
@@ -124,12 +128,13 @@ function flower(layers, centre, variant, rng, options) {
     stroke(layers, 'detail', p(3.5, 0), p(radius * 0.35, -0.4),
       p(radius * 0.64, -0.5), p(radius * 0.88, 0));
     // Fine strokes sit inside each petal; spacing never falls below 3 units.
-    for (const offset of hatchStrokes(radius * 0.46, options.hatching * 0.52, 3.4)) {
+    for (const offset of hatchStrokes(radius * 0.46, options.hatching, 3.4)) {
       const u = radius * 0.29 + offset;
-      const startH = p(u, -width * 0.30);
-      const endH = p(u + radius * 0.06, -width * 0.62);
-      stroke(layers, 'hatching', startH, p(u, -width * 0.43),
-        p(u + radius * 0.045, -width * 0.50), endH);
+      const startH = p(u, -width * 0.10);
+      const endH = p(u + radius * (0.025 + 0.06 * ink),
+        -width * (0.35 + 0.53 * ink));
+      stroke(layers, 'hatching', startH, p(u, -width * (0.17 + 0.12 * ink)),
+        p(u + radius * 0.045, -width * (0.24 + 0.46 * ink)), endH);
       if (options.shading === 'crosshatch') {
         stroke(layers, 'hatching', p(u + radius * 0.13, -width * 0.58),
           p(u + radius * 0.1, -width * 0.48), p(u + radius * 0.06, -width * 0.36),
@@ -153,8 +158,19 @@ function flower(layers, centre, variant, rng, options) {
 function decorateStem(layers, bud, order, allFlowers, rng, options) {
   const anchor = { x: 150 + (bud.x - 150) * 0.17, y: 348 };
   const finish = { x: bud.x, y: bud.y + bud.size * 0.77 };
-  const control1 = { x: anchor.x + (bud.x - 150) * 0.3 + rng.between(-7, 7), y: 293 };
-  const control2 = { x: bud.x + rng.between(-12, 12), y: bud.y + 46 };
+  const flow = options.curvature / 100;
+  const direction = bud.x < 149 ? -1 : (bud.x > 151 ? 1 : (order % 2 ? -1 : 1));
+  const vectorX = finish.x - anchor.x;
+  const vectorY = finish.y - anchor.y;
+  // At 0% the stem is nearly straight; at 100% it sweeps in an S curve.
+  const control1 = {
+    x: anchor.x + vectorX / 3 + direction * 35 * flow + rng.between(-4, 4) * flow,
+    y: anchor.y + vectorY / 3 - 8 * flow,
+  };
+  const control2 = {
+    x: anchor.x + vectorX * 2 / 3 - direction * 33 * flow + rng.between(-5, 5) * flow,
+    y: anchor.y + vectorY * 2 / 3 + 11 * flow,
+  };
   stroke(layers, 'outlines', anchor, control1, control2, finish);
   const side = bud.x < 149 ? -1 : 1;
   for (const t of [0.34, 0.55]) {
@@ -165,7 +181,7 @@ function decorateStem(layers, bud, order, allFlowers, rng, options) {
     const tip = localPoint(origin.x, origin.y, angle, size);
     if (allFlowers.some(f => Math.hypot(tip.x - f.x, tip.y - f.y) < f.size + 5)) continue;
     leafShape(layers, origin, angle + rng.between(-0.14, 0.14), size,
-      rng.between(0.27, 0.36), options.hatching, options.shading);
+      rng.between(0.27, 0.36), options.hatching, options.shading, options.curvature);
   }
 }
 
@@ -174,8 +190,9 @@ function drawSideFoliage(layers, allFlowers, rng, options) {
   for (const side of [-1, 1]) {
     const x = 150 + side * 99;
     const p0 = { x, y: 347 };
-    const p1 = { x: x - side * 24, y: 286 };
-    const p2 = { x: x + side * 23, y: 189 };
+    const flow = options.curvature / 100;
+    const p1 = { x: x - side * (3 + 35 * flow), y: 286 };
+    const p2 = { x: x + side * (3 + 35 * flow), y: 189 };
     const p3 = { x: x - side * 3, y: 99 };
     stroke(layers, 'outlines', p0, p1, p2, p3);
     for (let i = 0; i < count; i += 1) {
@@ -187,7 +204,7 @@ function drawSideFoliage(layers, allFlowers, rng, options) {
       const tip = localPoint(point.x, point.y, angle, size);
       if (allFlowers.some(f => Math.hypot(tip.x - f.x, tip.y - f.y) < f.size + 7)) continue;
       leafShape(layers, point, angle, size, 0.3,
-        options.hatching * 0.6, options.shading);
+        options.hatching * 0.6, options.shading, options.curvature);
     }
   }
 }

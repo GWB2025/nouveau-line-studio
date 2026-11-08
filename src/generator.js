@@ -79,7 +79,11 @@ export function renderSvg(artwork, enabledLayers = ORDER) {
   ];
   for (const name of ORDER) {
     if (!permitted.has(name)) continue;
-    parts.push(`  <g id="layer-${name}" fill="none" stroke="#111111" stroke-width="${STROKES[name]}" stroke-linecap="round" stroke-linejoin="round">`);
+    // On-screen organic hatching was sub-pixel at A6; the pen plotter still
+    // follows the same centreline paths irrespective of preview stroke width.
+    const width = name === 'hatching' && options.composition === 'organic'
+      ? 0.48 : STROKES[name];
+    parts.push(`  <g id="layer-${name}" fill="none" stroke="#111111" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">`);
     for (const path of layers[name]) {
       parts.push(`    <path d="${path.d}"/>`);
     }
