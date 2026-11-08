@@ -1,16 +1,31 @@
 # Nouveau Line Studio
 
-**Generative black-and-white Art Nouveau ornament, designed for pen plotting.**
+**Generative black-and-white Art Nouveau botanical compositions, designed for pen plotting.**
 
 [![Launch Nouveau Line Studio](https://img.shields.io/badge/%E2%9D%A6_LAUNCH-NOUVEAU_LINE_STUDIO-385b45?style=for-the-badge&labelColor=1d3927)](https://gwb2025.github.io/nouveau-line-studio/)
 
 **GitHub Pages launch address:** <https://gwb2025.github.io/nouveau-line-studio/>
 
-> **Publishing status:** the public GitHub repository and Pages workflow are committed to `main`. In **Settings → Pages → Build and deployment**, select **GitHub Actions** as the source. The launch button will become active after a successful deployment; verify the site before calling it live.
+> **Publishing status:** GitHub Pages is deployed from `main` via GitHub Actions. Milestone 2 should be released only after automated checks pass.
 
-## Milestone 01 — Botanical ornament (evaluation release)
+## Milestone 02 — Expressive botanical compositions (evaluation release)
 
-The first release creates **original** monochrome Art Nouveau-inspired floral ornaments. It does not copy Mucha's drawings or claim to generate human figures yet.
+Milestone 2 adds an **Organic** generator without altering the **Classic** engine. Select **Load Milestone 1 reference** to recover the original A6 seeded artwork exactly. The zero-build, dependency-free browser app still exports plain stroked SVG with the same four plotter layers.
+
+- **Flowers:** lilies, irises, poppies or a mixed bouquet, with seeded natural petal variations.
+- **Composition:** flower-placement symmetry from paired (100%) to intentionally asymmetric (0%); protective spacing between blossoms.
+- **Frames:** architectural double arch, oval halo or trellis.
+- **Shading:** separate contour or crosshatching paths with conservative minimum separation.
+- **Paper:** A4, A5 or A6 portrait, adjustable artwork scale (50–130%) and minimum physical margin (0–20 mm). Bounds are measured from Bézier curves; actual scale is reduced when needed to avoid clipping.
+- **Testing:** original Milestone 1 SVG regression hash, deterministic seeded variation, paper geometry, shading isolation, frame switching, SVG sanitisation, plotting complexity and static UI checks.
+
+**[Open the new Milestone 2 example SVG](samples/nouveau-mixed-seed-20261108-A6.svg)** (A6, seed `20261108`, 281 paths, approximately 2.61 m pen-down). The previous A4 sample remains available below.
+
+**Important:** Milestone 2 is software-validated. It still needs independent evaluation in Safari, SVG Plotter and on the physical T-A4 before sign-off. A successful Milestone 1 plot is not proof that this new geometry plots correctly.
+
+## Milestone 01 — Botanical ornament (validated reference)
+
+The original release creates **original** monochrome Art Nouveau-inspired floral ornaments. It does not copy Mucha's drawings or claim to generate human figures yet.
 
 - Reproducible random seed; different seeds create different drawings.
 - Lily, poppy and iris-inspired motifs; adjustable foliage density, curvature and fine hatching.
@@ -20,7 +35,9 @@ The first release creates **original** monochrome Art Nouveau-inspired floral or
 - An indicative pen-down distance and path count; these are **not** a physical plotting-time estimate.
 - Works entirely in the browser with no account and no third-party dependencies.
 
-![Example seeded botanical ornament](samples/preview-white.png)
+![Milestone 2 botanical composition](samples/nouveau-mixed-seed-20261108-A6.svg)
+
+Classic reference: ![Original Milestone 1 ornament](samples/preview-white.png)
 
 [Open an example A4 SVG](samples/nouveau-lily-seed-20261107-A4.svg)
 
@@ -47,7 +64,7 @@ npm test        # Node.js built-in test runner, no npm install needed
 npm run check   # Tests + sample SVG validation/generation
 ```
 
-`npm run check` creates or refreshes `samples/nouveau-lily-seed-20261107-A4.svg` and checks the SVG path count. The CI workflow runs the same command before deploying Pages.
+`npm run check` refreshes both example SVGs and validates their path counts, lengths and clipping margins. The CI workflow runs the same command before deploying Pages.
 
 ### Export to Writing Robot T-A4
 
@@ -69,10 +86,13 @@ nouveau-line-studio/
 ├── src/
 │   ├── prng.js                 # Seeded deterministic PRNG
 │   ├── geometry.js             # Bézier and path primitives
+│   ├── layout.js               # Physical margin/scale fitting
+│   ├── composition.js          # Organic flower planning and safe hatching
+│   ├── organic.js              # Milestone 2 compositions
 │   ├── botany.js               # Procedural botanical composition
 │   ├── generator.js            # Pure generator and SVG export
 │   └── app.js                  # Browser event handling
-├── tests/                      # 13+ node:test unit tests
+├── tests/                      # 36 node:test regression and behavioural tests
 ├── scripts/validate.mjs        # Reproducible sample validation
 ├── samples/                    # A4 example SVG and preview image
 ├── docs/VALIDATION.md          # Evidence and physical test checklist
@@ -84,8 +104,8 @@ nouveau-line-studio/
 
 | Stage | Scope | Gate before next stage |
 |---|---|---|
-| **01 — now** | Seeded ornamental flora, curves, SVG layers, paper sizes, UI | Automated tests; visual evaluation; SVG Plotter import; physical T-A4 small plot |
-| **02 — planned** | More authentic Art Nouveau botanicals, line-hatching and compositional grammars | Repeatability, style evaluation, complexity budgets and physical plots |
+| **01 — passed** | Seeded ornamental flora, curves, SVG layers, paper sizes, UI | Automated tests; visual evaluation; SVG Plotter import; physical T-A4 small plot |
+| **02 — evaluation** | More authentic Art Nouveau botanicals, line-hatching and compositional grammars | Repeatability, style evaluation, complexity budgets and physical plots |
 | **03 — planned** | Parametric face/figure outlines, hairstyles, drapery | Anatomy and composition review; plotted figure tests |
 | **04 — optional** | AI-assisted figures followed by vector simplification | Quality, licensing, offline/cloud costs, and SVG plot quality reviewed separately |
 
@@ -97,14 +117,15 @@ Milestone 01 uses **small, testable, pure JavaScript ES modules** and HTML/CSS: 
 
 ### GitHub Pages publication
 
-The public repository is <https://github.com/GWB2025/nouveau-line-studio>.
+The public repository is <https://github.com/GWB2025/nouveau-line-studio>. Updates to `main` trigger the [test-and-deploy workflow](https://github.com/GWB2025/nouveau-line-studio/actions/workflows/ci-pages.yml). Deployments are gated on the automated tests. To update a checkout that has not yet received Milestone 2:
 
-1. Open **Settings → Pages** in the repository.
-2. Under **Build and deployment**, select **GitHub Actions** as the source.
-3. Open the [Test and deploy GitHub Pages workflow](https://github.com/GWB2025/nouveau-line-studio/actions/workflows/ci-pages.yml) and confirm all jobs pass.
-4. Use the **Launch Nouveau Line Studio** badge above to open the published application.
+```bash
+cd ~/Documents/Projects/Generative-Art/nouveau-line-studio
+git pull --ff-only
+npm run check
+```
 
-If the automated deployment does not start after enabling Pages, use **Run workflow** on the Actions page to trigger it. Keep your Mac's checkout synchronised with GitHub using `git pull --ff-only` before making further edits.
+Under **Settings → Pages**, the source should remain **GitHub Actions**. The README launch badge opens the latest successful `main` deployment.
 
 ### Scope and limitations
 

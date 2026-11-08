@@ -1,5 +1,7 @@
 import { SeededRandom } from './prng.js';
 import { buildBotanicalComposition } from './botany.js';
+import { buildOrganicComposition } from './organic.js';
+import { fitPathsToPage } from './layout.js';
 
 const PAPER = Object.freeze({ A4: [210, 297], A5: [148, 210], A6: [105, 148] });
 const ORDER = Object.freeze(['frame', 'outlines', 'detail', 'hatching']);
@@ -11,8 +13,14 @@ function bounded(value, fallback) {
     ? fallback : Math.max(0, Math.min(100, Math.round(number)));
 }
 
+function ranged(value, fallback, min, max) {
+  const number = Number(value);
+  return value === '' || !Number.isFinite(number)
+    ? fallback : Math.max(min, Math.min(max, Math.round(number)));
+}
+
 export function sanitiseOptions(raw = {}) {
-  const flower = ['lily', 'poppy', 'iris'].includes(raw.flower) ? raw.flower : 'lily';
+  const flower = ['lily', 'poppy', 'iris', 'mixed'].includes(raw.flower) ? raw.flower : 'lily';
   const page = Object.hasOwn(PAPER, raw.page) ? raw.page : 'A4';
   return {
     seed: String(raw.seed ?? '20261107').slice(0, 80),
@@ -21,6 +29,12 @@ export function sanitiseOptions(raw = {}) {
     curvature: bounded(raw.curvature, 75),
     hatching: bounded(raw.hatching, 40),
     page,
+    composition: raw.composition === 'organic' ? 'organic' : 'classic',
+    symmetry: bounded(raw.symmetry, 100),
+    frame: ['arch', 'halo', 'trellis'].includes(raw.frame) ? raw.frame : 'arch',
+    shading: raw.shading === 'crosshatch' ? 'crosshatch' : 'contour',
+    scale: ranged(raw.scale, 100, 50, 130),
+    margin: ranged(raw.margin, 0, 0, 20),
   };
 }
 
@@ -34,8 +48,12 @@ export function createArtwork(rawOptions = {}) {
   const options = sanitiseOptions(rawOptions);
   const rng = new SeededRandom(`${options.seed}|botanical|${options.flower}`);
   const hatchRng = new SeededRandom(`${options.seed}|hatching`);
-  const layers = buildBotanicalComposition(options, rng, hatchRng);
+  const rawLayers = options.composition === 'organic'
+    ? buildOrganicComposition(options)
+    : buildBotanicalComposition(options, rng, hatchRng);
   const [widthMm, heightMm] = PAPER[options.page];
+  const { layers, effectiveScale } = fitPathsToPage(rawLayers,
+    widthMm, heightMm, options.scale, options.margin);
   const unitToMm = Math.min(widthMm / 300, heightMm / 420);
   const allPaths = ORDER.flatMap(name => layers[name]);
   return {
@@ -45,6 +63,7 @@ export function createArtwork(rawOptions = {}) {
       penDownMm: Math.round(allPaths.reduce((sum, path) => sum + path.length, 0) * unitToMm),
       layerCounts: Object.fromEntries(ORDER.map(name => [name, layers[name].length])),
       pageWidthMm: widthMm, pageHeightMm: heightMm,
+      effectiveScale, marginMm: options.margin,
     },
   };
 }

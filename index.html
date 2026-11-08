@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Generate seeded black-and-white Art Nouveau vector ornament, export genuine pen-plotter-ready SVGs.">
-  <title>Nouveau Line Studio — Botanical Ornament</title>
+  <title>Nouveau Line Studio — Botanical Compositions</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,29 +14,42 @@
       <div class="eyebrow">An experimental vector atelier</div>
       <h1>Nouveau <em>Line</em> Studio</h1>
     </div></div>
-    <div class="masthead-right"><span class="stage">MILESTONE 01</span><span class="stage-name">Botanical ornament</span></div>
+    <div class="masthead-right"><span class="stage">MILESTONE 02</span><span class="stage-name">Expressive botany</span></div>
   </header>
 
   <main class="workspace">
     <aside class="controls" aria-label="Artwork controls">
       <div class="section-head"><span>01 / COMPOSITION</span><div class="hairline"></div></div>
-      <p class="intro">Original black-and-white botanical ornament, drawn with mathematical curves. Change the seed to create a new variation.</p>
+      <p class="intro">Explore original botanical linework, with controllable asymmetry, frames and plotter-safe hatching. Choose Classic to reproduce Milestone 1.</p>
+      <label class="field" for="composition"><span>Composition engine</span>
+        <select id="composition"><option value="organic">Organic — Milestone 2</option><option value="classic">Classic — Milestone 1</option></select>
+      </label>
       <label class="field" for="flower"><span>Floral motif</span>
-        <select id="flower"><option value="lily">Lilies</option><option value="poppy">Poppies</option><option value="iris">Irises</option></select>
+        <select id="flower"><option value="lily">Lilies</option><option value="poppy">Poppies</option><option value="iris">Irises</option><option value="mixed" selected>Mixed flowers</option></select>
       </label>
       <label class="field" for="seed"><span>Random seed</span>
-        <div class="seed-row"><input id="seed" type="text" maxlength="80" value="20261107" spellcheck="false"><button id="randomise" type="button" class="icon-button" title="New random seed" aria-label="New random seed">↻</button></div>
+        <div class="seed-row"><input id="seed" type="text" maxlength="80" value="20261108" spellcheck="false"><button id="randomise" type="button" class="icon-button" title="New random seed" aria-label="New random seed">↻</button></div>
+      </label>
+      <label class="range-field" for="symmetry"><span>Flower placement symmetry <output id="symmetry-value">70%</output></span><input id="symmetry" type="range" min="0" max="100" step="5" value="70"></label>
+      <label class="field" for="frame"><span>Architectural frame</span>
+        <select id="frame"><option value="arch">Double arch</option><option value="halo">Oval halo</option><option value="trellis">Trellis</option></select>
       </label>
       <div class="divider"></div>
       <div class="section-head"><span>02 / DETAIL</span><div class="hairline"></div></div>
-      <label class="range-field" for="density"><span>Foliage density <output id="density-value">65%</output></span><input id="density" type="range" min="0" max="100" step="5" value="65"></label>
+      <label class="range-field" for="density"><span>Foliage density <output id="density-value">70%</output></span><input id="density" type="range" min="0" max="100" step="5" value="70"></label>
       <label class="range-field" for="curvature"><span>Curve expression <output id="curvature-value">75%</output></span><input id="curvature" type="range" min="0" max="100" step="5" value="75"></label>
-      <label class="range-field" for="hatching"><span>Fine hatching <output id="hatching-value">40%</output></span><input id="hatching" type="range" min="0" max="100" step="5" value="40"></label>
+      <label class="range-field" for="hatching"><span>Fine hatching <output id="hatching-value">55%</output></span><input id="hatching" type="range" min="0" max="100" step="5" value="55"></label>
+      <label class="field" for="shading"><span>Pen-and-ink shading</span>
+        <select id="shading"><option value="contour">Fine contour lines</option><option value="crosshatch">Cross-hatching</option></select>
+      </label>
       <div class="divider"></div>
       <div class="section-head"><span>03 / PRINT</span><div class="hairline"></div></div>
       <label class="field" for="page"><span>Paper format</span>
-        <select id="page"><option value="A4">A4 — 210 × 297 mm</option><option value="A5">A5 — 148 × 210 mm</option><option value="A6">A6 — 105 × 148 mm</option></select>
+        <select id="page"><option value="A4">A4 — 210 × 297 mm</option><option value="A5">A5 — 148 × 210 mm</option><option value="A6" selected>A6 — 105 × 148 mm</option></select>
       </label>
+      <label class="range-field" for="scale"><span>Artwork scale <output id="scale-value">115%</output></span><input id="scale" type="range" min="50" max="130" step="5" value="115"></label>
+      <label class="range-field" for="margin"><span>Minimum paper margin <output id="margin-value">8 mm</output></span><input id="margin" type="range" min="0" max="20" step="1" value="8"></label>
+      <p class="aside-note">Margins are applied to the actual Bézier paths, without SVG transforms. The effective scale may be reduced to fit the page.</p>
       <fieldset class="layers"><legend>Visible / exported pen layers</legend>
         <label><input type="checkbox" data-layer="frame" checked><span>Architectural frame</span><small>01</small></label>
         <label><input type="checkbox" data-layer="outlines" checked><span>Botanical outlines</span><small>02</small></label>
@@ -44,18 +57,20 @@
         <label><input type="checkbox" data-layer="hatching" checked><span>Shading lines</span><small>04</small></label>
       </fieldset>
       <button id="export" class="primary-button" type="button"><span>↓</span> Export SVG for plotter</button>
-      <button id="reset" class="subtle-button" type="button">Restore defaults</button>
+      <button id="reset" class="subtle-button" type="button">Restore Milestone 2 defaults</button>
+      <button id="legacy" class="subtle-button" type="button">Load Milestone 1 reference</button>
       <p class="aside-note">No account, cloud service or image model required. Everything is generated in your browser.</p>
     </aside>
 
     <section class="stage-area" aria-labelledby="artwork-title">
-      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">Botanical <em>study no. 01</em></h2></div>
+      <div class="art-top"><div><div class="eyebrow">The illustration desk</div><h2 id="artwork-title">Botanical <em>study no. 02</em></h2></div>
         <span id="paper-tag" class="paper-tag">A4 · MONOCHROME</span></div>
       <div class="sheet-zone"><div class="sheet" id="preview" role="img" aria-label="Preview of generated black-and-white Art Nouveau botanical ornament"></div></div>
       <div class="art-bottom"><div><span class="metric-label">Vector paths</span><strong id="path-count">—</strong></div>
         <div><span class="metric-label">Pen-down distance (approx.)</span><strong id="pen-length">—</strong></div>
         <div><span class="metric-label">Artwork seed</span><strong id="seed-caption">—</strong></div></div>
-      <div class="notice"><span class="notice-dot"></span><p><strong>Evaluation release.</strong> Botanical geometry only. The stroke layers are editable SVG paths; figures and AI-assisted compositions are planned for later milestones.</p></div>
+      <div class="notice"><span class="notice-dot"></span><p><strong>Milestone 2 evaluation.</strong> New organic floral compositions, alternative frames, controlled symmetry and pen-safe shading. The Classic engine preserves earlier drawings. Human figures remain a later stage.</p></div>
+      <p class="scale-note" id="fit-info" aria-live="polite"></p>
       <p id="status" class="sr-only" role="status" aria-live="polite"></p>
     </section>
   </main>
