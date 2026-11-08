@@ -1,9 +1,9 @@
 {
   "name": "nouveau-line-studio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Deterministic black-and-white Art Nouveau SVG ornament for pen plotters",
+  "description": "Deterministic black-and-white Art Nouveau SVG botanical compositions for pen plotters",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "check": "npm test && node scripts/validate.mjs",

@@ -1,8 +1,16 @@
 import { createArtwork, renderSvg } from './generator.js';
 
-const DEFAULTS = Object.freeze({ seed: '20261107', flower: 'lily', density: 65,
-  curvature: 75, hatching: 40, page: 'A4' });
-const FIELDS = ['seed', 'flower', 'density', 'curvature', 'hatching', 'page'];
+const DEFAULTS = Object.freeze({
+  seed: '20261108', flower: 'mixed', density: 70, curvature: 75,
+  hatching: 55, page: 'A6', composition: 'organic', symmetry: 70,
+  frame: 'arch', shading: 'contour', scale: 115, margin: 8,
+});
+const CLASSIC = Object.freeze({
+  seed: '2412028838', flower: 'lily', density: 65, curvature: 75,
+  hatching: 40, page: 'A6', composition: 'classic', symmetry: 100,
+  frame: 'arch', shading: 'contour', scale: 100, margin: 0,
+});
+const FIELDS = Object.keys(DEFAULTS);
 const $ = id => document.getElementById(id);
 let artwork;
 
@@ -27,9 +35,16 @@ function updatePreview() {
   $('export').disabled = paths.length === 0;
   $('seed-caption').textContent = artwork.options.seed || '(empty)';
   $('paper-tag').textContent = `${artwork.options.page} · MONOCHROME`;
-  for (const name of ['density', 'curvature', 'hatching']) {
+  $('preview').style.aspectRatio = `${artwork.metrics.pageWidthMm} / ${artwork.metrics.pageHeightMm}`;
+  $('fit-info').textContent = `Effective scale: ${artwork.metrics.effectiveScale.toFixed(1)}% · ` +
+    `minimum margin: ${artwork.metrics.marginMm} mm. ` +
+    'Length shown excludes pen-up travel and acceleration.';
+  const classic = artwork.options.composition === 'classic';
+  for (const name of ['symmetry', 'frame', 'shading']) $(name).disabled = classic;
+  for (const name of ['density', 'curvature', 'hatching', 'symmetry', 'scale']) {
     $(`${name}-value`).textContent = `${artwork.options[name]}%`;
   }
+  $('margin-value').textContent = `${artwork.options.margin} mm`;
 }
 
 function exportSvg() {
@@ -60,10 +75,12 @@ $('randomise').addEventListener('click', () => {
   $('seed').value = String(bytes[0]);
   updatePreview();
 });
-$('reset').addEventListener('click', () => {
-  for (const [name, value] of Object.entries(DEFAULTS)) $(name).value = value;
+function loadPreset(values) {
+  for (const [name, value] of Object.entries(values)) $(name).value = value;
   for (const input of document.querySelectorAll('input[data-layer]')) input.checked = true;
   updatePreview();
-});
+}
+$('reset').addEventListener('click', () => loadPreset(DEFAULTS));
+$('legacy').addEventListener('click', () => loadPreset(CLASSIC));
 $('export').addEventListener('click', exportSvg);
 updatePreview();
